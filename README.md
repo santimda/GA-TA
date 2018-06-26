@@ -1,3 +1,10 @@
-# GATA
+# GA-TA
 ## Introduction
-**GATA** is a bla bla bla
+**GA-TA** is a bla bla bla
+## Functionalities
+### Arlequin
+ble ble ble
+### R
+bli bli bli
+### Structure
+blo blo blo
