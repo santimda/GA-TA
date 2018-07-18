@@ -31,10 +31,6 @@ class Data():
 		self.n_women, self.n_men, self.total_MenWomen = self.WoMens() 	
 		self.n_each_population, self.totalPopulations = self.Populations()
 
-	#def read(self):
-#		self.__init__(inputTable)
-	#	return self.fileColumn, self.fileValues
-
 	def sortData(self):
 		columnName=[]
 		for each in self.sheetData.columns:
@@ -93,11 +89,3 @@ class Data():
 		
 		return total_subpop, number_subpop
 
-		###from collections import Counter
-		###_pop.keys() and n_each_pop.values()
-		####Counter format almost as dictionary. Use n_each #inicializo array que va a tener la cantidad de hombres y mujeres en cada muestra. len() = numerodesubpoblaciones
-		###n_each_pop = Counter(elem[2] for elem in self.fileValues)
-		###
-		###total_pop =len(Counter(elem[2] for elem in self.fileValues))
-		###
-		###return n_each_pop, total_pop
