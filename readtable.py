@@ -30,6 +30,7 @@ class Data():
 		self.fileColumn, self.fileValues = self.sortData()
 		self.n_women, self.n_men, self.total_MenWomen = self.WoMens() 	
 		self.n_each_population, self.totalPopulations = self.Populations()
+		self.n_markers = self.Markers()
 
 	def sortData(self):
 		columnName=[]
@@ -88,4 +89,8 @@ class Data():
 		number_subpop = len(total_subpop)
 		
 		return total_subpop, number_subpop
+
+	def Markers(self):
+		#return number of markers
+		return len(self.fileValues.T[3:])
 
