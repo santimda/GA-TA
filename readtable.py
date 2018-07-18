@@ -28,10 +28,12 @@ class Data():
 		
 		# create column name and column values 
 		self.fileColumn, self.fileValues = self.sortData()
-		
-	def read(self):
+		self.n_women, self.n_men, self.total_MenWomen = self.WoMens() 	
+		self.n_each_population, self.totalPopulations = self.Populations()
+
+	#def read(self):
 #		self.__init__(inputTable)
-		return self.fileColumn, self.fileValues
+	#	return self.fileColumn, self.fileValues
 
 	def sortData(self):
 		columnName=[]
@@ -41,4 +43,61 @@ class Data():
 		for each in self.sheetData.values:
 			columnValues.append(each)
 
-		return columnName, columnValues
+		return np.array(columnName), np.array(columnValues)
+
+	def WoMens(self):
+		'''return number of women, mens and total in the file'''
+		countWomen = 0
+		countMen = 0
+
+		for each in self.fileValues.T[1]:
+		    #print each
+		    if each == 2: 
+		        countWomen += 1
+		    elif each == 1:
+		        countMen += 1
+
+		# countWomen = countWomen/2 for convention
+		return countWomen/2, countMen, countWomen/2 + countMen 
+
+	def Populations(self):
+		'''return total number of populations of the study'''
+
+		countWomen = []
+		countMen = []
+		#inicializo contador de hombres y mujeres en cada subpoblacion
+		countWomen_i=0
+		countMen_i=0
+		
+		#inicializo la primer subpoblacion
+		sex_index, pop_index = self.fileValues.T[1], self.fileValues.T[2]
+		index = pop_index[0]
+		#para cada subpoblacion, cuento
+		for i,each in enumerate(pop_index):
+		    
+		    if pop_index[i] == index and sex_index[i] == 2:
+		        countWomen_i += 1
+		    elif pop_index[i] == index and sex_index[i] == 1:
+		        countMen_i += 1
+		    if i < len(pop_index)-1 and pop_index[i+1] == index + 1:
+		        index += 1    
+		        countWomen.append(countWomen_i/2)
+		        countMen.append(countMen_i)
+		        countWomen_i=0
+		        countMen_i = 0
+		    elif i == len(pop_index)-1:
+		        countWomen.append(countWomen_i/2)
+		        countMen.append(countMen_i)
+		total_subpop = np.array(countWomen)+np.array(countMen)
+		number_subpop = len(total_subpop)
+		
+		return total_subpop, number_subpop
+
+		###from collections import Counter
+		###_pop.keys() and n_each_pop.values()
+		####Counter format almost as dictionary. Use n_each #inicializo array que va a tener la cantidad de hombres y mujeres en cada muestra. len() = numerodesubpoblaciones
+		###n_each_pop = Counter(elem[2] for elem in self.fileValues)
+		###
+		###total_pop =len(Counter(elem[2] for elem in self.fileValues))
+		###
+		###return n_each_pop, total_pop
