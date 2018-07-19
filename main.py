@@ -4,23 +4,11 @@ from readtable import Data
 import pandas as pd
 
 '''Call the class to read the input table and store information'''
-
-data1 = Data(sys.argv[1])
-colum,values = data1.read()
-
-print values[7]
-
-sys.exit()
+#read the table and return a data with many atributes
+data = Data(sys.argv[1])
 
 
-
-columnName = np.array(columnName)
-columnValues = np.array(columnValues)
-
-
-print np.shape(columnName.T), np.shape(columnName[0])
-
-print np.shape(columnValues), np.shape(columnValues[0])
-
-print columnName.T[0], columnValues[0:58]
-#print data['Hoja2'].Sex
+print '{0} file contains: {1} total number of persons in study, with {2} womens and {3} mens.'.format(
+	sys.argv[1], data.total_MenWomen, data.n_women, data.n_men)
+print 'The investigation has {0} subpopulations with: {1} persons each one'.format(data.totalPopulations, data.n_each_population)
+print 'Number of markers: {0}'.format(data.n_markers)
