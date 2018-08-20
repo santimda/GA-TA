@@ -1,6 +1,7 @@
 import numpy as np
 import sys
 from readtable import Data
+from R_structure import R
 import pandas as pd
 
 '''Call the class to read the input table and store information'''
@@ -19,25 +20,56 @@ print 'Mens per subpop', data.men4subpop
 
 print 'filevalues shape', np.shape(data.fileValues)
 
-# Tomamos la subpoblacion 1:
-subpop1_w = data.women4subpop
-subpop1_m = data.men4subpop
-# Los marcadores son: data.markers
+# Invoco a R
 
-marker_mod = []
-for each in data.markers:
-	marker_mod.append(str(each)+'A')
-	marker_mod.append(str(each)+'B')
+rdata = R(data)
 
-print '======================================='
-print 'data.populations shape', np.shape(data.populations)
-#print data.populations[3]
+print np.shape(rdata.mens), np.shape(rdata.womens)
+print rdata.womens
 
-# Modifico women:
-#data_women = []
-#for each in data.
+header = ''
+for i in rdata.marker_mod:
+	header = header + '{:7s}\t'.format(i)
+dat = np.concatenate((rdata.womens, rdata.mens), axis = 0)
+
+np.savetxt('outputR.txt', dat, fmt='%4d', header = header)
 
 
-#print 'Now. Mens and Women are new class... So each men and women is an object.'
-#print 'The format of Mens are:'
-#print 'The format of Women are:'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#R_Data_markers.append()
+#DataFrame.join()
+#DataFrame.merge()
+#DataFrame.to_excel()
+#						'womens': rdata.womens,
+#						'mens': rdata.mens })
+
+
+
+#output_file.write('{} /n'.format(rdata.marker_mod))
+#for each in rdata.womens:
+#	output_file.write('{} /n'.format(each))
+#
+#for each in rdata.mens:
+#	output_file.write('{} /n'.format(each))
+#
+#output_file.close()
