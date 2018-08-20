@@ -115,12 +115,4 @@ class Data():
 
 
 
-#class R():
-#	def __init__(self, data):
-
-
-
-
-
-
 
