@@ -20,18 +20,19 @@ print 'Mens per subpop', data.men4subpop
 
 print 'filevalues shape', np.shape(data.fileValues)
 
+
 # Invoco a R
 
 rdata = R(data)
 
-print np.shape(rdata.mens), np.shape(rdata.womens)
-print rdata.womens
+dat = []
+for i in range(len(rdata.womens)):
+	dat.append(np.concatenate((rdata.womens[i], rdata.mens[i]), axis = 0) ) 
 
+dat = np.concatenate(dat, axis = 0)
 header = ''
 for i in rdata.marker_mod:
 	header = header + '{:7s}\t'.format(i)
-dat = np.concatenate((rdata.womens, rdata.mens), axis = 0)
-
 np.savetxt('outputR.txt', dat, fmt='%4d', header = header)
 
 
