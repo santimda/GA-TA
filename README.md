@@ -7,6 +7,8 @@
 (Martin 20/08) Instalar ssconvert para convertir archivos .txt a .xslx (en Linux)
 # dejo una pagina que puede ser util a mano (en caso de querer output en .xlsx):
 https://pandas.pydata.org/pandas-docs/stable/io.html#io-excel-writer
+(Martin 23/08): valores aceptados son 0,1, y cualquier numero entero.
+(Martin 24/08): Tabla para R, funciona usando todas las poblaciones + numero de la poblacion correspondiente en la columna 1
 
 ## Introduction
 **GA-TA** is a bla bla bla
