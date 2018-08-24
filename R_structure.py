@@ -29,8 +29,6 @@ class R():
 		
 	def R_Type(self, Data, pop):
 		# Modifico women and mens:
-		'''Martin (13/08): 	ahora estoy probando con Data.populations[0] que seria la primer subpoblacion, hay que modificarlo
-							para hacer lo con todas las que tenga'''
 
 		poblacion = pop # A ser modificado (ver nota)
 		poblacion_w = []
@@ -46,8 +44,6 @@ class R():
 	
 		# The +1 of the shape is because we want a number of populations + markers 
 		markersWom_forR = np.empty((len(poblacion_w)/2,len(self.marker_mod)+1), dtype = np.int8)
-	
-		#print np.shape(poblacion_w), np.shape(markers_forR), np.shape(Data.markers)
 	
 		for i in range(0,len(poblacion_w),2):
 			markersWom_forR[i/2,0] = int(poblacion_w[i][2])

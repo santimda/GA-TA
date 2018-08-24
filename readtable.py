@@ -10,7 +10,36 @@ class Data():
 	'''a person is any one in the file'''
 	
 	def __init__(self, inputTable):
-		'''use Pandas'''
+		
+		'''
+		Input:
+
+			. inputTable = data file name. 	Rows: persons, 
+											Cols: 1-identification, 2-sex (1 (M) or 2 (F)), 3-id of population, 4 to N markers 
+
+		Return:
+
+			A set of atributes.
+
+			. nameColumn: Columns names. Type = numpy.array (strings) with shape = (3 + #OfMarkers., )  
+			. fileValues: Array with all the values (id, sex, pop and markers). 
+							Type = numpy.array, shape = (#persons, 3+#OfMarkers)
+			. n_women: Total number of womens in the file. Type = int
+			. n_men Total number of mens in the file. Type = int
+			. total_MenWomen: n_women + n_men
+			. men4subpop: #mens inside each subpopulation. 
+							Type = list (integers) with shape = (#SubPopulation)
+			. women4subpop: #womens inside each subpopulation. 
+							Type = list (integers) with shape = (#SubPopulation)
+			. n_each_population: Total number of persons in each subpopulation.
+							Type = numpy.array (integers) with shape = (#SubPopulation)  
+			. totalPopulations: #SubPopulations in the file. Type = int
+			. populations: Data Info of the entire file. Type = list (arrays) with shape = (#SubPop)
+			. n_markers: #OfMarkers. Type = int
+			. markers: Name of markers. Type = numpy.array (strings) with shape = (#OfMarkers)
+		
+		__init__ use Pandas for read only one Sheet of the Excel file. '''
+		
 		file = inputTable
 
 		# Load file
@@ -21,10 +50,10 @@ class Data():
 		if len(allFile.sheet_names) > 1: 
 			raise ValueError('The program does not support more than 1 sheet')
 		elif len(allFile.sheet_names) == 1: 
-			self.sheet0 = allFile.sheet_names[0]
+			sheet0 = allFile.sheet_names[0]
 
 		# Read THE sheet and Create a sheetData atribute with all the info of the file
-		self.sheetData = allFile.parse(self.sheet0)
+		self.sheetData = allFile.parse(sheet0)
 		
 		# create column name and column values 
 		self.nameColumn, self.fileValues = self.sortData()
@@ -33,6 +62,10 @@ class Data():
 		self.n_markers, self.markers = self.Markers()
 		
 	def sortData(self):
+		'''
+		return: columnName, columnValues
+
+		'''
 		columnName=[]
 		for each in self.sheetData.columns:
 			columnName.append(each)
@@ -43,7 +76,10 @@ class Data():
 		return np.array(columnName), np.array(columnValues)
 
 	def WoMens(self):
-		'''return number of women, mens and total in the file'''
+		'''
+		return: number of women, mens and total in the file
+
+		'''
 		countWomen = 0
 		countMen = 0
 
@@ -54,15 +90,19 @@ class Data():
 			elif each == 1:
 				countMen += 1
 
-		# countWomen = countWomen/2 for convention
 		return countWomen/2, countMen, countWomen/2 + countMen 
 
 	def Populations(self):
-		'''return total number of populations of the study'''
+		'''
+		return: total number of populations of the study
+
+		'''
 
 		countWomen = []
 		countMen = []
-		#inicializo contador de hombres y mujeres en cada subpoblacion
+		
+		#init counters
+
 		countWomen_i = 0
 		countMen_i = 0
 		
@@ -76,7 +116,7 @@ class Data():
 		# will store women and mens for each population. shape(popul) = (#populations,...)
 		popul = []
 
-		# para cada subpoblacion, cuento
+		# count for each subpopulation
 		aux=[]
 		for i,each in enumerate(pop_index):
 			
@@ -109,10 +149,8 @@ class Data():
 		return countMen, countWomen, total_subpop, number_subpop, popul
 
 	def Markers(self):
-		#return number of markers
-		#print self.fileValues[205]
+		'''
+		return: number of markers
+
+		'''
 		return len(self.fileValues.T[3:]), self.nameColumn.T[3:]
-
-
-
-
