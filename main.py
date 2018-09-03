@@ -1,13 +1,19 @@
 import numpy as np
 import sys
 from readtable import Data
+from R_structure import R
 import pandas as pd
 
 '''Call the class to read the input table and store information'''
 #read the table and return a data with many atributes
+
 data = Data(sys.argv[1])
 
+val = data.markers
+print np.shape(val), type(val)
+print val
 
+sys.exit()
 print '{0} file contains: {1} total number of persons in study, with {2} womens and {3} mens.'.format(
 	sys.argv[1], data.total_MenWomen, data.n_women, data.n_men)
 print 'The investigation has {0} subpopulations with: {1} persons each one'.format(data.totalPopulations, data.n_each_population)
@@ -19,25 +25,57 @@ print 'Mens per subpop', data.men4subpop
 
 print 'filevalues shape', np.shape(data.fileValues)
 
-# Tomamos la subpoblacion 1:
-subpop1_w = data.women4subpop
-subpop1_m = data.men4subpop
-# Los marcadores son: data.markers
 
-marker_mod = []
-for each in data.markers:
-	marker_mod.append(str(each)+'A')
-	marker_mod.append(str(each)+'B')
+# Invoco a R
 
-print '======================================='
-print 'data.populations shape', np.shape(data.populations)
-#print data.populations[3]
+rdata = R(data)
 
-# Modifico women:
-#data_women = []
-#for each in data.
+dat = []
+for i in range(len(rdata.womens)):
+	dat.append(np.concatenate((rdata.womens[i], rdata.mens[i]), axis = 0) ) 
+
+dat = np.concatenate(dat, axis = 0)
+header = ''
+for i in rdata.marker_mod:
+	header = header + '{:7s}\t'.format(i)
+np.savetxt('outputR.txt', dat, fmt='%4d', header = header)
 
 
-#print 'Now. Mens and Women are new class... So each men and women is an object.'
-#print 'The format of Mens are:'
-#print 'The format of Women are:'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#R_Data_markers.append()
+#DataFrame.join()
+#DataFrame.merge()
+#DataFrame.to_excel()
+#						'womens': rdata.womens,
+#						'mens': rdata.mens })
+
+
+
+#output_file.write('{} /n'.format(rdata.marker_mod))
+#for each in rdata.womens:
+#	output_file.write('{} /n'.format(each))
+#
+#for each in rdata.mens:
+#	output_file.write('{} /n'.format(each))
+#
+#output_file.close()
