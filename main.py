@@ -9,11 +9,6 @@ import pandas as pd
 
 data = Data(sys.argv[1])
 
-val = data.markers
-print np.shape(val), type(val)
-print val
-
-sys.exit()
 print '{0} file contains: {1} total number of persons in study, with {2} womens and {3} mens.'.format(
 	sys.argv[1], data.total_MenWomen, data.n_women, data.n_men)
 print 'The investigation has {0} subpopulations with: {1} persons each one'.format(data.totalPopulations, data.n_each_population)
@@ -25,57 +20,10 @@ print 'Mens per subpop', data.men4subpop
 
 print 'filevalues shape', np.shape(data.fileValues)
 
-
 # Invoco a R
 
+#print data.populations[2]
+
 rdata = R(data)
+np.savetxt('outputR.txt', rdata.dat, fmt='%4d', header = rdata.header)
 
-dat = []
-for i in range(len(rdata.womens)):
-	dat.append(np.concatenate((rdata.womens[i], rdata.mens[i]), axis = 0) ) 
-
-dat = np.concatenate(dat, axis = 0)
-header = ''
-for i in rdata.marker_mod:
-	header = header + '{:7s}\t'.format(i)
-np.savetxt('outputR.txt', dat, fmt='%4d', header = header)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#R_Data_markers.append()
-#DataFrame.join()
-#DataFrame.merge()
-#DataFrame.to_excel()
-#						'womens': rdata.womens,
-#						'mens': rdata.mens })
-
-
-
-#output_file.write('{} /n'.format(rdata.marker_mod))
-#for each in rdata.womens:
-#	output_file.write('{} /n'.format(each))
-#
-#for each in rdata.mens:
-#	output_file.write('{} /n'.format(each))
-#
-#output_file.close()

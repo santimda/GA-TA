@@ -26,6 +26,16 @@ class R():
 			auxPop = self.R_Type(Data, each_pop)
 			self.womens.append(auxPop[0])
 			self.mens.append(auxPop[1]) 
+
+		self.dat = []
+		for i in range(len(self.womens)):
+			self.dat.append(np.concatenate((self.womens[i], self.mens[i]), axis = 0) ) 
+
+		self.dat = np.concatenate(self.dat, axis = 0)
+		self.header = ''
+		for i in self.marker_mod:
+			self.header = self.header + '{:7s}\t'.format(i)
+
 		
 	def R_Type(self, Data, pop):
 		# Modifico women and mens:
