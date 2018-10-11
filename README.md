@@ -3,7 +3,8 @@
 The excecution command line: $python main.py SPREADSHEET.xlsx
 
 The output file is a plane '.txt' file. Use ssconvert (in Linux) in order to have an '.xlsx' file 
- 
+$ ssconvert eggs.txt eggs.xlsx
+
 # dejo una pagina que puede ser util a mano (en caso de querer output en .xlsx):
 https://pandas.pydata.org/pandas-docs/stable/io.html#io-excel-writer
 
