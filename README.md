@@ -1,12 +1,9 @@
 # GA-TA
 
-The excecution command line: $python main.py SPREADSHEET.xlsx
+The excecution command line: $python main.py ras SPREADSHEET.xlsx . 'ras' is chosen for the user. The user can specify one, two or three letters, each one corresponds to the output tables: R, Arlequin and/or Structure respectivly.
+Output: dos archivos. Uno en .txt y otro en .xlsx por cada tipo de tabla solicitado (hasta ahora solo funciona R)
+Incorporado: conversion de txt a xlsx automaticamente (dentro de main)
 
-The output file is a plane '.txt' file. Use ssconvert (in Linux) in order to have an '.xlsx' file 
-$ ssconvert eggs.txt eggs.xlsx
-
-# dejo una pagina que puede ser util a mano (en caso de querer output en .xlsx):
-https://pandas.pydata.org/pandas-docs/stable/io.html#io-excel-writer
 
 (Martin 23/08): valores aceptados son 0,1, y cualquier numero entero.
 (Martin 24/08): Tabla para R, funciona usando todas las poblaciones + numero de la poblacion correspondiente en la columna 1
@@ -20,7 +17,7 @@ ble ble ble
 
 ### R
 
-R_structure is the module that generate the output table for R software.
+R_structure is the module that generate the output table for R software. Done it.
 
 ### Structure
 blo blo blo
