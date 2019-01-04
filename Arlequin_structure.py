@@ -22,6 +22,7 @@ class Arlequin():
 		# The first two columns are indivudual number (reset for each subpopulation) and population number, then markers.
 		self.marker_mod.append(str('IND'))
 		self.marker_mod.append(str('POP'))
+
 		for each in Data.markers:
 			self.marker_mod.append(str(each).strip())
 
@@ -46,18 +47,30 @@ class Arlequin():
 	def ArlequinType(self, Data, pop):
 
 		'''In this structure, womens keep the same shape. 
-		This method work over one populations. __init__() interprets works with all.'''
-
-		# First column = indivudual number
+		This method work over one populations. __init__() interprets works with all.
 		
+		Parameters:
+		
+		ColSexType  == column with the 1 or 2 (mens or womens)
+		ColPopNum == column with number of population
+		ColIndNum == column with number of each individual (or name)
+		ColMarkBegin == column where markers starts
+		ARLQINDEX = 1 #same kind of sex for Arlequin
+		MARKER = -9
+
+		Return: 
+
+		'''		
+
 		poblacion = pop
+		PopName = poblacion[0][0]
 		poblacion_w = []
 		poblacion_m = []
 
 		for each in poblacion:
-			if each[1] == 2:
+			if each[Data.ColSexType] == Data.IsWomen:
 				poblacion_w.append(each)
-			elif each[1] == 1:
+			elif each[Data.ColSexType] == Data.IsMen:
 				poblacion_m.append(each)
 		
 		# Does man pop (fake womes) odd or even?:
@@ -67,32 +80,33 @@ class Arlequin():
 			# tengo que generalizarlo por si no es -9 el marcador que hace referencia a MissingData
 			poblacion_m.append([-9 for x in range(np.shape(poblacion_m)[1])])
 
-		markersWom_forArlq = np.empty((len(poblacion_w),len(self.marker_mod)), dtype = np.int8)#object)
-		markersMen_forArlq = np.empty((len(poblacion_m),len(self.marker_mod)), dtype = np.int8)#object)
+		markersWom_forArlq = np.empty((len(poblacion_w),len(self.marker_mod)), dtype = object)#np.int8)
+		markersMen_forArlq = np.empty((len(poblacion_m),len(self.marker_mod)), dtype = object)#object)
 
 		for i in range(0,len(poblacion_w),2):
 			
-			markersWom_forArlq[i,0] = int(poblacion_w[i][0])
-			markersWom_forArlq[i,1] = int(1)
+			markersWom_forArlq[i,0] = PopName+str(poblacion_w[i][Data.ColIndNum])
+			markersWom_forArlq[i,1] = int(Data.ARLQINDEX)
 			
-			markersWom_forArlq[i+1,0] = -9
-			markersWom_forArlq[i+1,1] = -9
+			markersWom_forArlq[i+1,0] = Data.MARKER # aca no va MARKER, va espacio en blanco 
+			markersWom_forArlq[i+1,1] = Data.MARKER
 			for j in range(2, len(self.marker_mod)):
-				markersWom_forArlq[i,j] = int(poblacion_w[i][j+1])
-				markersWom_forArlq[i+1,j] = int(poblacion_w[i][j+1])
+				markersWom_forArlq[i,j] = int(poblacion_w[i][j+2])
+				markersWom_forArlq[i+1,j] = int(poblacion_w[i+1][j+2])
 
 		count = len(poblacion_w)/2
+		
 		for i in range(0,len(poblacion_m),2):
 			count += 1
-			markersMen_forArlq[i,0] = int(count)
-			markersMen_forArlq[i,1] = int(1)
+			markersMen_forArlq[i,0] = PopName+str(count)
+			markersMen_forArlq[i,1] = int(Data.ARLQINDEX)
 
-			markersMen_forArlq[i+1,0] = -9
-			markersMen_forArlq[i+1,1] = -9
+			markersMen_forArlq[i+1,0] = Data.MARKER
+			markersMen_forArlq[i+1,1] = Data.MARKER
 			
 			for j in range(2, len(self.marker_mod)):
-				markersMen_forArlq[i,j] = int(poblacion_m[i][j+1])
-				markersMen_forArlq[i+1,j] = int(poblacion_m[i][j+1])
+				markersMen_forArlq[i,j] = int(poblacion_m[i][j+2])
+				markersMen_forArlq[i+1,j] = int(poblacion_m[i+1][j+2])
 
 		return markersWom_forArlq, markersMen_forArlq
 
