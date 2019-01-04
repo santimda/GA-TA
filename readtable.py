@@ -1,12 +1,7 @@
 import numpy as np
 import pandas as pd
+import os
 
-'''(Martin 09/07). 	Pandas no soporta archivos openOffice, deberiamos adaptar la lectura para este tipo de archivos. 
-					Pandas solo lee las columnas que tienen un header (cabecera). Por ejemplo en el archivo planilla_generica.xlsx
-					no reconoce al lugar (Posadas, Corrientes,etc) como columna con informacion'''
-
-
-					
 class Data():
 	
 	'''a person is any one in the file'''
@@ -42,11 +37,15 @@ class Data():
 		
 		__init__ use Pandas for read only one Sheet of the Excel file. '''
 		
-		file = inputTable
+		self.file = inputTable
 
+		if self.file.split('.')[-1] == 'ods':
+			os.system('ssconvert '+ self.file + ' '+ self.file.split('.')[0]+'.xlsx')
+			self.file = self.file.split('.')[0]+'.xlsx'
+		
 		# Load file
 		
-		allFile = pd.ExcelFile(file)
+		allFile = pd.ExcelFile(self.file, sheetname = 0)
 
 		# Only one sheet admited  
 		if len(allFile.sheet_names) > 1: 
@@ -69,29 +68,43 @@ class Data():
 		'''
 		Hardcoded parameters for test table planilla_generica.xlsx. To be modified?
 
-		ColSexType  == column with the 1 or 2 (mens or womens)
-		ColPopNum == column with number of population
-		ColIndNum == column with number of each individual (or name)
-		ColMarkBegin == column where markers starts
-		ARLQINDEX == 1 #same kind of sex for Arlequin
-		MARKER == set marker param for the table
-		STRWom == Structure women param for fill 
-		STRMen == Structure women param for fill 
-
+		info == [boolean] print some info of the input file
+		ColSexType  == [int] column with the 1 or 2 (mens or womens)
+		ColPopNum == [int] column with number of population
+		ColIndNum == [int]column with number of each individual (or name)
+		ColMarkBegin == [int] column where markers starts
+		
+		outputNameR == [str] prefix output name
+		
+		ARLQINDEX == [int] 1 #same kind of sex for Arlequin
+		MARKER == [int?] set marker param for the table
+		outputNameArlq == [str] prefix output name
+		
+		STRWom == [float] Structure women param for fill 
+		STRMen == [float] Structure women param for fill 
+		outputNameStr == [str] prefix output name
+		
 		'''
+		self.info = False
 
 		self.IsMen = 1
 		self.IsWomen = 2
+		self.ColIndNum = 1
 		self.ColSexType = 2
 		self.ColPopNum = 3
-		self.ColIndNum = 1
 		self.ColMarkBegin = 4
+
+		self.outputNameR = 'Output_R_' + self.file.split('.')[0]
 	
 		self.ARLQINDEX = 1 #same kind of sex for Arlequin
 		self.MARKER = -9
+		self.outputNameArlq = 'Output_Arlq_' + self.file.split('.')[0]
 
 		self.STRWom = 0.5
 		self.STRMen = 1.0
+		self.outputNameStr = 'Output_Str_' + self.file.split('.')[0]
+
+		self.outputExtensionFile = '.xlsx'
 
 	def sortData(self):
 
@@ -137,9 +150,6 @@ class Data():
 		return: total number of populations of the study
 
 		'''
-		ColSexType = 2
-		ColPopNum = 3
-
 		countWomen = []
 		countMen = []
 		
@@ -152,7 +162,7 @@ class Data():
 		#pop_index = array que toma etiquetas de poblaciones
 		#sex_index = array con los valores del sexo
 
-		sex_index, pop_index = self.fileValues.T[ColSexType], self.fileValues.T[ColPopNum]
+		sex_index, pop_index = self.fileValues.T[self.ColSexType], self.fileValues.T[self.ColPopNum]
 		index = pop_index[0]
 
 		# will store women and mens for each population. shape(popul) = (#populations,...)
@@ -197,7 +207,4 @@ class Data():
 		return: number of markers
 
 		'''
-
-		ColMarkBegin = 4
-
-		return len(self.fileValues.T[ColMarkBegin:]), self.nameColumn.T[ColMarkBegin:]
+		return len(self.fileValues.T[self.ColMarkBegin:]), self.nameColumn.T[self.ColMarkBegin:]
