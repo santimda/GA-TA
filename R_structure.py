@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import os
 
 class R():
 
@@ -39,6 +40,16 @@ class R():
 		self.header = ''
 		for i in self.marker_mod:
 			self.header = self.header + '{:7s}\t'.format(i)
+
+		#Save data to a file
+		self.Output(Data)
+
+	def Output(self, Data):
+
+		# Save data to a file
+		np.savetxt(Data.outputNameR+'.txt', self.data, fmt='%4d', header = self.header, comments = '')
+		# convert .txt in a spreadsheet
+		os.system('ssconvert '+Data.outputNameR+'.txt '+Data.outputNameR+'.xlsx')
 
 		
 	def RType(self, Data, pop):
