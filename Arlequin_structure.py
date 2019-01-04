@@ -42,6 +42,17 @@ class Arlequin():
 
 		self.data = np.concatenate(self.data, axis = 0)
 
+		# Save data to a file
+		self.Output(Data)
+
+	def Output(self, Data):
+
+		#Save data to a file
+
+		OutputArlqDF = pd.DataFrame(self.data)
+		Writer = pd.ExcelWriter(Data.outputNameArlq + Data.outputExtensionFile)
+		OutputArlqDF.to_excel(Writer, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
+		Writer.save()
 
 
 	def ArlequinType(self, Data, pop):
@@ -88,8 +99,8 @@ class Arlequin():
 			markersWom_forArlq[i,0] = PopName+str(poblacion_w[i][Data.ColIndNum])
 			markersWom_forArlq[i,1] = int(Data.ARLQINDEX)
 			
-			markersWom_forArlq[i+1,0] = Data.MARKER # aca no va MARKER, va espacio en blanco 
-			markersWom_forArlq[i+1,1] = Data.MARKER
+			markersWom_forArlq[i+1,0] = ' ' 
+			markersWom_forArlq[i+1,1] = ' '
 			for j in range(2, len(self.marker_mod)):
 				markersWom_forArlq[i,j] = int(poblacion_w[i][j+2])
 				markersWom_forArlq[i+1,j] = int(poblacion_w[i+1][j+2])
@@ -101,8 +112,8 @@ class Arlequin():
 			markersMen_forArlq[i,0] = PopName+str(count)
 			markersMen_forArlq[i,1] = int(Data.ARLQINDEX)
 
-			markersMen_forArlq[i+1,0] = Data.MARKER
-			markersMen_forArlq[i+1,1] = Data.MARKER
+			markersMen_forArlq[i+1,0] = ' '
+			markersMen_forArlq[i+1,1] = ' '
 			
 			for j in range(2, len(self.marker_mod)):
 				markersMen_forArlq[i,j] = int(poblacion_m[i][j+2])
