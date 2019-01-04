@@ -4,6 +4,8 @@ import pandas as pd
 '''(Martin 09/07). 	Pandas no soporta archivos openOffice, deberiamos adaptar la lectura para este tipo de archivos. 
 					Pandas solo lee las columnas que tienen un header (cabecera). Por ejemplo en el archivo planilla_generica.xlsx
 					no reconoce al lugar (Posadas, Corrientes,etc) como columna con informacion'''
+
+
 					
 class Data():
 	
@@ -60,8 +62,39 @@ class Data():
 		self.n_women, self.n_men, self.total_MenWomen = self.WoMens() 	
 		self.men4subpop, self.women4subpop, self.n_each_population, self.totalPopulations,self.populations = self.Populations()
 		self.n_markers, self.markers = self.Markers()
-		
+		self.Parameters()		
+
+	def Parameters(self):
+			
+		'''
+		Hardcoded parameters for test table planilla_generica.xlsx. To be modified?
+
+		ColSexType  == column with the 1 or 2 (mens or womens)
+		ColPopNum == column with number of population
+		ColIndNum == column with number of each individual (or name)
+		ColMarkBegin == column where markers starts
+		ARLQINDEX == 1 #same kind of sex for Arlequin
+		MARKER == set marker param for the table
+		STRWom == Structure women param for fill 
+		STRMen == Structure women param for fill 
+
+		'''
+
+		self.IsMen = 1
+		self.IsWomen = 2
+		self.ColSexType = 2
+		self.ColPopNum = 3
+		self.ColIndNum = 1
+		self.ColMarkBegin = 4
+	
+		self.ARLQINDEX = 1 #same kind of sex for Arlequin
+		self.MARKER = -9
+
+		self.STRWom = 0.5
+		self.STRMen = 1.0
+
 	def sortData(self):
+
 		'''
 		return: columnName, columnValues
 
@@ -75,15 +108,20 @@ class Data():
 
 		return np.array(columnName), np.array(columnValues)
 
+	
 	def WoMens(self):
 		'''
+		ColSexType  == column with the 1 or 2 (mens or womens)
+
 		return: number of women, mens and total in the file
 
 		'''
+
+		ColSexType = 2
 		countWomen = 0
 		countMen = 0
 
-		for each in self.fileValues.T[1]:
+		for each in self.fileValues.T[ColSexType]:
 			#print each
 			if each == 2:
 				countWomen += 1
@@ -94,9 +132,13 @@ class Data():
 
 	def Populations(self):
 		'''
+		ColSexType  == column with the 1 or 2 (mens or womens)
+		ColPopNum == column with number of population
 		return: total number of populations of the study
 
 		'''
+		ColSexType = 2
+		ColPopNum = 3
 
 		countWomen = []
 		countMen = []
@@ -110,7 +152,7 @@ class Data():
 		#pop_index = array que toma etiquetas de poblaciones
 		#sex_index = array con los valores del sexo
 
-		sex_index, pop_index = self.fileValues.T[1], self.fileValues.T[2]
+		sex_index, pop_index = self.fileValues.T[ColSexType], self.fileValues.T[ColPopNum]
 		index = pop_index[0]
 
 		# will store women and mens for each population. shape(popul) = (#populations,...)
@@ -150,7 +192,12 @@ class Data():
 
 	def Markers(self):
 		'''
+		ColMarkBegin == column where begins the markers
+
 		return: number of markers
 
 		'''
-		return len(self.fileValues.T[3:]), self.nameColumn.T[3:]
+
+		ColMarkBegin = 4
+
+		return len(self.fileValues.T[ColMarkBegin:]), self.nameColumn.T[ColMarkBegin:]
