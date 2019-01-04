@@ -43,7 +43,8 @@ class Data():
 			os.system('ssconvert '+ self.file + ' '+ self.file.split('.')[0]+'.xlsx')
 			self.file = self.file.split('.')[0]+'.xlsx'
 		
-		# Load file
+		# Load file parameters
+		self.Parameters()		
 		
 		allFile = pd.ExcelFile(self.file, sheetname = 0)
 
@@ -61,7 +62,6 @@ class Data():
 		self.n_women, self.n_men, self.total_MenWomen = self.WoMens() 	
 		self.men4subpop, self.women4subpop, self.n_each_population, self.totalPopulations,self.populations = self.Populations()
 		self.n_markers, self.markers = self.Markers()
-		self.Parameters()		
 
 	def Parameters(self):
 			
@@ -129,12 +129,10 @@ class Data():
 		return: number of women, mens and total in the file
 
 		'''
-
-		ColSexType = 2
 		countWomen = 0
 		countMen = 0
 
-		for each in self.fileValues.T[ColSexType]:
+		for each in self.fileValues.T[self.ColSexType]:
 			#print each
 			if each == 2:
 				countWomen += 1
