@@ -1,19 +1,21 @@
-import numpy as np
 import sys
 import os
+import numpy as np
+import pandas as pd
 from readtable import Data
 from R_structure import R
 from Arlequin_structure import Arlequin
-import pandas as pd
+from Structure_structure import Structure
 
 '''Call the class to read the input table and store information'''
 #read the table and return a data with many atributes
 
-argum = sys.argv[1]
-argum = set(argum)
-
-data = Data(sys.argv[2])
-
+if len(sys.argv) == 3:
+	argum = set(sys.argv[1])
+	data = Data(sys.argv[2])
+else:
+	argum = ' '
+	data = Data(sys.argv[1]) 
 info = True#False
 
 if info:
@@ -28,26 +30,36 @@ if info:
 
 	print 'filevalues shape', np.shape(data.fileValues)
 
-# Invoco a R
 if 'r' in argum:
+
 	rData = R(data)
 	output_name_R = 'outputR'
 	np.savetxt(output_name_R+'.txt', rData.data, fmt='%4d', header = rData.header, comments = '')
 	# convert .txt in a spreadsheet
 	os.system('ssconvert '+output_name_R+'.txt '+output_name_R+'.xlsx')
 
-elif 'a' in argum: 
+if 'a' in argum: 
+
 	arlequinData = Arlequin(data)
 	output_name_arlequin = 'outputArlq'
-	np.savetxt(output_name_arlequin+'.txt', arlequinData.data, comments = '', fmt='%4d')#, header = arlequinData.header)
+	
+	ArrFmt = ['%s']
+	for i in range(0,(np.shape(arlequinData.data)[1]-1)):
+		ArrFmt.append('%4d')
+	np.savetxt(output_name_arlequin+'.txt', arlequinData.data, comments = '', fmt=ArrFmt)#, header = arlequinData.header)
 	os.system('ssconvert '+output_name_arlequin+'.txt '+output_name_arlequin+'.xlsx')
 
 
-elif 's' in argum:
-	print 's'
+if 's' in argum:
 
-else: 
-	raise ValueError('You have to specify r (for R), a (for Arlequin) or s (for Structure) parameter.')
+	structureData = Structure(data)
+	output_name_structure = 'outputStr'
+
+	np.savetxt(output_name_structure+'.txt', structureData.data, comments = '', fmt='%4s')#, header = arlequinData.header)
+	os.system('ssconvert '+output_name_structure+'.txt '+output_name_structure+'.xlsx')
+
+if not 'r' in argum or not 'a' in argum or not 's' in argum: 
+	ValueError('You have to specify r (for R), a (for Arlequin) or s (for Structure) parameter.')
 
 
 
