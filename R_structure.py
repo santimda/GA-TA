@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import os
 
 class R():
 
@@ -40,29 +41,54 @@ class R():
 		for i in self.marker_mod:
 			self.header = self.header + '{:7s}\t'.format(i)
 
+		#Save data to a file
+		self.Output(Data)
+
+	def Output(self, Data):
+
+		# Save data to a file
+		np.savetxt(Data.outputNameR+'.txt', self.data, fmt='%4d', header = self.header, comments = '')
+		# convert .txt in a spreadsheet
+		os.system('ssconvert '+Data.outputNameR+'.txt '+Data.outputNameR+'.xlsx')
+
 		
 	def RType(self, Data, pop):
-		# Modifico women and mens:
+		'''Modifico women and mens:
+		
+		Parameters:
+		
+		ColSexType  == column with the 1 or 2 (mens or womens)
+		ColPopNum == column with number of population
+		ColIndNum == column with number of each individual (or name)
+
+		Return: 
+
+		'''
+
+		#ColSexType = 2
+		#ColPopNum = 3
+		#ColIndNum = 1
+		#ColMarkBegin = 4
 
 		poblacion = pop 
 		poblacion_w = []
 		poblacion_m = []
 
 		for each in poblacion:
-			if each[1] == 2:
+			if each[Data.ColSexType] == Data.IsWomen:
 				poblacion_w.append(each)
-			elif each[1] == 1:
+			elif each[Data.ColSexType] == Data.IsMen:
 				poblacion_m.append(each)
 	 
 		markersWom_forR = np.empty((len(poblacion_w)/2,len(self.marker_mod)), dtype = np.int8)
 	
 		for i in range(0,len(poblacion_w),2):
-			markersWom_forR[i/2,0] = int(poblacion_w[i][0]) # First column == individual number
-			markersWom_forR[i/2,1] = int(poblacion_w[i][2]) # Second column == population number
+			markersWom_forR[i/2,0] = int(poblacion_w[i][Data.ColIndNum]) 
+			markersWom_forR[i/2,1] = int(poblacion_w[i][Data.ColPopNum]) 
 			for j in range(0, 2*len(Data.markers), 2):
 					j+=1
-					markersWom_forR[i/2,j+1] = int(poblacion_w[i][3+j/2])
-					markersWom_forR[i/2,j+2] = int(poblacion_w[i+1][3+j/2])
+					markersWom_forR[i/2,j+1] = int(poblacion_w[i][Data.ColMarkBegin+j/2])
+					markersWom_forR[i/2,j+2] = int(poblacion_w[i+1][Data.ColMarkBegin+j/2])
 		
 		# Mens. Remember odd and even
 
@@ -77,12 +103,12 @@ class R():
 		k = len(markersWom_forR)
 		for i in range(0,len(poblacion_m),2):
 			k += 1
-			markersMen_forR[i/2,0] = int(k)	# First column == individual number
-			markersMen_forR[i/2,1] = int(poblacion_m[i][2])	# Second column == population number
+			markersMen_forR[i/2,0] = int(k)	# First column (new file)== individual number
+			markersMen_forR[i/2,1] = int(poblacion_m[i][Data.ColPopNum])	
 			for j in range(0, 2*len(Data.markers),2):
 				j+=1
-				markersMen_forR[i/2,j+1] = int(poblacion_m[i][3+j/2])
-				markersMen_forR[i/2,j+2] = int(poblacion_m[i+1][3+j/2])
+				markersMen_forR[i/2,j+1] = int(poblacion_m[i][Data.ColMarkBegin+j/2])
+				markersMen_forR[i/2,j+2] = int(poblacion_m[i+1][Data.ColMarkBegin+j/2])
 		
 		return markersWom_forR, markersMen_forR
 
