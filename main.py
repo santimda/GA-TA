@@ -1,3 +1,18 @@
+""" ========== Genetic Aplications: Table Adapter (GA:TA) =========
+
+This soft ....
+
+Authors (alfabetic order): del Palacio, S.; Di Santo, P.; Gamboa Lerena, M. M.
+contact: 
+
+Thanks to Federico Lopez Armengol for help to think the meta structure and for teach us Github (jaja), Fernando.... 
+
+Late upload: January 2019
+
+
+"""
+
+
 import sys
 import os
 import numpy as np
