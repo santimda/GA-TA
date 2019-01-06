@@ -74,7 +74,7 @@ class Arlequin():
 		'''		
 
 		poblacion = pop
-		PopName = poblacion[0][0]
+		PopName = poblacion[0][Data.ColPopName]
 		poblacion_w = []
 		poblacion_m = []
 
@@ -95,7 +95,6 @@ class Arlequin():
 		markersMen_forArlq = np.empty((len(poblacion_m),len(self.marker_mod)), dtype = object)#object)
 
 		for i in range(0,len(poblacion_w),2):
-			
 			markersWom_forArlq[i,0] = PopName+str(poblacion_w[i][Data.ColIndNum])
 			markersWom_forArlq[i,1] = int(Data.ARLQINDEX)
 			
