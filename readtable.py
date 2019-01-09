@@ -89,6 +89,7 @@ class Data():
 
 		self.IsMen = 1
 		self.IsWomen = 2
+		self.ColPopName = 0
 		self.ColIndNum = 1
 		self.ColSexType = 2
 		self.ColPopNum = 3
