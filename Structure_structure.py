@@ -40,6 +40,10 @@ class Structure():
 
 		self.data = np.concatenate(self.data, axis = 0)
 
+		self.mens = np.concatenate(self.mens, axis = 0)
+
+		self.womens = np.concatenate(self.womens, axis = 0)
+
 		#Save data to a file
 		self.Output(Data)
 
@@ -49,6 +53,17 @@ class Structure():
 		Writer = pd.ExcelWriter(Data.outputNameStr + Data.outputExtensionFile)
 		OutputStrDF.to_excel(Writer, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
 		Writer.save()
+
+		OutputStrDFMens = pd.DataFrame(self.mens)
+		WriterMens = pd.ExcelWriter(Data.outputNameStr + 'Mens' + Data.outputExtensionFile)
+		OutputStrDFMens.to_excel(WriterMens, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
+		WriterMens.save()
+
+		OutputStrDFWomens = pd.DataFrame(self.womens)
+		WriterWomens = pd.ExcelWriter(Data.outputNameStr + 'Womens' + Data.outputExtensionFile)
+		OutputStrDFWomens.to_excel(WriterWomens, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
+		WriterWomens.save()
+
 
 	def StructureType(self, Data, pop, l):
 
