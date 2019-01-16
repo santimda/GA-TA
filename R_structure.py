@@ -51,6 +51,11 @@ class R():
 		# convert .txt in a spreadsheet
 		os.system('ssconvert '+Data.outputNameR+'.txt '+Data.outputNameR+'.xlsx')
 
+		OutputRDF = pd.DataFrame(self.data)
+		Writer = pd.ExcelWriter(Data.outputNameR +'2'+ Data.outputExtensionFile)
+		OutputRDF.to_excel(Writer, sheet_name = 'Sheet1', na_rep = ' ', index = False, columns = self.header)
+		Writer.save()
+
 		
 	def RType(self, Data, pop):
 		'''Modifico women and mens:
