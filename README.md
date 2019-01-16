@@ -16,7 +16,7 @@ Examples:	$ python main.py ra spreadsheet.xlsx
 			$ python main.py s spreadsheet.xlsx
 			it will return output file for Structure
 			
-Output: dos archivos. Uno en .txt y otro en .xlsx por cada tipo de tabla solicitado..
+Output: tres planillas con el formato solicitado: 1 sólo mujeres, 1 sólo hombres y 1 combinando hombres y mujeres (agrupados por población). Uno en .txt y otro en .xlsx por cada tipo de tabla solicitado..
 Incorporado: conversion de txt a xlsx automaticamente (dentro de main)
 
 Warning: The first line must not to be white, it should be the header of the input file, otherwise will show an ErrorMsg
