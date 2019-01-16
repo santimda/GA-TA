@@ -42,6 +42,9 @@ class Arlequin():
 
 		self.data = np.concatenate(self.data, axis = 0)
 
+		self.mens = np.concatenate(self.mens, axis = 0)
+
+		self.womens = np.concatenate(self.womens, axis = 0)
 		# Save data to a file
 		self.Output(Data)
 
@@ -54,6 +57,15 @@ class Arlequin():
 		OutputArlqDF.to_excel(Writer, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
 		Writer.save()
 
+		OutputArlqDFMens = pd.DataFrame(self.mens)
+		WriterMens = pd.ExcelWriter(Data.outputNameArlq + 'Mens' + Data.outputExtensionFile)
+		OutputArlqDFMens.to_excel(WriterMens, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
+		WriterMens.save()
+
+		OutputArlqDFWomens = pd.DataFrame(self.womens)
+		WriterWomens = pd.ExcelWriter(Data.outputNameArlq + 'Womens' + Data.outputExtensionFile)
+		OutputArlqDFWomens.to_excel(WriterWomens, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
+		WriterWomens.save()
 
 	def ArlequinType(self, Data, pop):
 
