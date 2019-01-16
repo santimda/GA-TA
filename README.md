@@ -6,6 +6,7 @@
 ## Functionalities
 
 The excecution command line: $python main.py [OPTIONS] SPREADSHEET . 
+
 [OPTIONS]: The user can specify one, two or three letters, each one corresponds to the output tables: R (r), Arlequin (a) and/or Structure (s) respectivly. If the user do not specify any options, info of SPREADSHEET will be showed by terminal. 
 
 SPREADSHEET: Can be with Excel extention and with open office '.ods'
