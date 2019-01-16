@@ -54,7 +54,7 @@ if 's' in argum:
 	Structure(data)
 
 if not 'r' in argum or not 'a' in argum or not 's' in argum: 
-	ValueError('You have to specify r (for R), a (for Arlequin) or s (for Structure) parameter.')
+	raise ValueError('You have to specify r (for R), a (for Arlequin) or s (for Structure) parameter.')
 
 
 
