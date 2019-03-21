@@ -29,7 +29,7 @@ if len(sys.argv) == 3:
 	argum = set(sys.argv[1].lower())
 	data = Data(sys.argv[2])
 else:
-	argum = ' '
+	argum = 'ras'
 	data = Data(sys.argv[1]) 
 
 if data.info:
@@ -53,8 +53,8 @@ if 'a' in argum:
 if 's' in argum:
 	Structure(data)
 
-if not 'r' in argum or not 'a' in argum or not 's' in argum: 
-	raise ValueError('You have to specify r (for R), a (for Arlequin) or s (for Structure) parameter.')
+#if not 'r' in argum or not 'a' in argum or not 's' in argum: 
+#	raise ValueError('You have to specify r (for R), a (for Arlequin) or s (for Structure) parameter.')
 
 
 
