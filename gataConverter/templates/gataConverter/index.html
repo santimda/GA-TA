@@ -62,7 +62,15 @@
 		 		<div class="form-group row col-sm-10">
 					<button type="submit" class="btn btn-primary my-3">Convertir!</button>
 				</div>
+
+                {% if errorMsg %}
+                    <div class="alert alert-danger" role="alert">
+                        {{errorMsg}}
+                    </div>
+                {% endif %}
 			</form>
+
+            <p>Ya se hicieron {{downloads}} conversiones</p>
 
 
   		</div>

@@ -29,9 +29,6 @@ class Converter:
     def save_file(self):
         fs = FileSystemStorage()
         filename = fs.save(self.directoryPath+self.file.name, self.file)
-        uploaded_file_url = fs.url(filename)
-        print(uploaded_file_url)
-        print(filename)
         return filename
 
     def createZipFile(self):

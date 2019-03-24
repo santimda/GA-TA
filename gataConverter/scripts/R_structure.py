@@ -80,15 +80,15 @@ class R():
 			elif each[Data.ColSexType] == Data.IsMen:
 				poblacion_m.append(each)
 	 
-		markersWom_forR = np.empty((len(poblacion_w)/2,len(self.marker_mod)), dtype = np.int8)
+		markersWom_forR = np.empty((len(poblacion_w)//2,len(self.marker_mod)), dtype = np.int8)
 	
 		for i in range(0,len(poblacion_w),2):
-			markersWom_forR[i/2,0] = int(poblacion_w[i][Data.ColIndNum]) 
-			markersWom_forR[i/2,1] = int(poblacion_w[i][Data.ColPopNum]) 
+			markersWom_forR[i//2,0] = int(poblacion_w[i][Data.ColIndNum]) 
+			markersWom_forR[i//2,1] = int(poblacion_w[i][Data.ColPopNum]) 
 			for j in range(0, 2*len(Data.markers), 2):
 					j+=1
-					markersWom_forR[i/2,j+1] = int(poblacion_w[i][Data.ColMarkBegin+j/2])
-					markersWom_forR[i/2,j+2] = int(poblacion_w[i+1][Data.ColMarkBegin+j/2])
+					markersWom_forR[i//2,j+1] = int(poblacion_w[i][Data.ColMarkBegin+j//2])
+					markersWom_forR[i//2,j+2] = int(poblacion_w[i+1][Data.ColMarkBegin+j//2])
 		
 		# Mens. Remember odd and even
 
@@ -98,17 +98,17 @@ class R():
 			# tengo que generalizarlo por si no es -9 el marcador que hace referencia a MissingData
 			poblacion_m.append([-9 for x in range(np.shape(poblacion_m)[1])])
 
-		markersMen_forR = np.empty((len(poblacion_m)/2,len(self.marker_mod)), dtype = np.int8)
+		markersMen_forR = np.empty((len(poblacion_m)//2,len(self.marker_mod)), dtype = np.int8)
 
 		k = len(markersWom_forR)
 		for i in range(0,len(poblacion_m),2):
 			k += 1
-			markersMen_forR[i/2,0] = int(k)	# First column (new file)== individual number
-			markersMen_forR[i/2,1] = int(poblacion_m[i][Data.ColPopNum])	
+			markersMen_forR[i//2,0] = int(k)	# First column (new file)== individual number
+			markersMen_forR[i//2,1] = int(poblacion_m[i][Data.ColPopNum])	
 			for j in range(0, 2*len(Data.markers),2):
 				j+=1
-				markersMen_forR[i/2,j+1] = int(poblacion_m[i][Data.ColMarkBegin+j/2])
-				markersMen_forR[i/2,j+2] = int(poblacion_m[i+1][Data.ColMarkBegin+j/2])
+				markersMen_forR[i//2,j+1] = int(poblacion_m[i][Data.ColMarkBegin+j//2])
+				markersMen_forR[i//2,j+2] = int(poblacion_m[i+1][Data.ColMarkBegin+j//2])
 		
 		return markersWom_forR, markersMen_forR
 

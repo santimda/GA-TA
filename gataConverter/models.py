@@ -1,3 +1,5 @@
 from django.db import models
 
-# Create your models here.
+
+class Downloads(models.Model):
+    total = models.IntegerField(default=0)
