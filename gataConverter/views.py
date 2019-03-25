@@ -25,7 +25,7 @@ def index(request):
                 downloads.save()
                 return download(zipFile)
             except XLRDError:
-                errorMsg = "Formato de archivo incorrecto, el archivo debe ser .xsl o .ods"
+                errorMsg = "Formato de archivo incorrecto, el archivo debe ser .xslx o .ods"
         else:
             errorMsg = "Debe elegir algún formato de salida"
 

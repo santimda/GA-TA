@@ -2,6 +2,7 @@ from gataConverter.scripts.readtable import Data
 from gataConverter.scripts.Arlequin_structure import Arlequin
 from gataConverter.scripts.R_structure import R
 from django.core.files.storage import FileSystemStorage
+from xlrd import XLRDError
 import os
 import zipfile
 import shutil
@@ -16,14 +17,19 @@ class Converter:
 
     def convert(self):
         filename = self.save_file()
-        data = Data(filename)
-        if 'a' in self.formats:
-            Arlequin(data)
-        if 'r' in self.formats:
-            R(data)
-        os.remove(filename)
-        zipFile = self.createZipFile()
-        self.deleteTmpFiles()
+        try:
+            data = Data(filename)
+            if 'a' in self.formats:
+                Arlequin(data)
+            if 'r' in self.formats:
+                R(data)
+            os.remove(filename)
+            zipFile = self.createZipFile()
+        except XLRDError:
+            print (filename)
+            raise XLRDError
+        finally:
+            self.deleteTmpFiles()
         return zipFile
 
     def save_file(self):
@@ -33,9 +39,7 @@ class Converter:
 
     def createZipFile(self):
         zipFilename = shutil.make_archive("output", 'zip', self.directoryPath)
-        zipFile = open(zipFilename, 'rb')
-        os.remove(zipFilename)
-        return zipFile
+        return zipFilename
 
     def deleteTmpFiles(self):
         for the_file in os.listdir(self.directoryPath):
