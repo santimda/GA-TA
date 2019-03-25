@@ -3,7 +3,7 @@ import pandas as pd
 
 class Structure():
 
-	''' Structure structure (forgive the redundancy). It returns mens and womens format for Structure.'''
+	''' Structure structure (forgive the redundancy). It returns men and women format for Structure.'''
 
 	def __init__(self, Data):
 
@@ -14,8 +14,8 @@ class Structure():
 		subpop1_w = Data.women4subpop
 		subpop1_m = Data.men4subpop
 		
-		self.womens = []
-		self.mens = []
+		self.women = []
+		self.men = []
 
 		# Define Estructure markers type
 		self.marker_mod = []
@@ -31,18 +31,18 @@ class Structure():
 
 		for i, each_pop in enumerate(Data.populations):
 			auxPop = self.StructureType(Data, each_pop, i)
-			self.womens.append(auxPop[0])
-			self.mens.append(auxPop[1]) 
+			self.women.append(auxPop[0])
+			self.men.append(auxPop[1]) 
 
 		self.data = []
-		for i in range(len(self.womens)):
-			self.data.append(np.concatenate((self.womens[i], self.mens[i]), axis = 0) ) 
+		for i in range(len(self.women)):
+			self.data.append(np.concatenate((self.women[i], self.men[i]), axis = 0) ) 
 
 		self.data = np.concatenate(self.data, axis = 0)
 
-		self.mens = np.concatenate(self.mens, axis = 0)
+		self.men = np.concatenate(self.men, axis = 0)
 
-		self.womens = np.concatenate(self.womens, axis = 0)
+		self.women = np.concatenate(self.women, axis = 0)
 
 		#Save data to a file
 		self.Output(Data)
@@ -54,26 +54,26 @@ class Structure():
 		OutputStrDF.to_excel(Writer, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
 		Writer.save()
 
-		OutputStrDFMens = pd.DataFrame(self.mens)
-		WriterMens = pd.ExcelWriter(Data.outputNameStr + 'Mens' + Data.outputExtensionFile)
-		OutputStrDFMens.to_excel(WriterMens, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
-		WriterMens.save()
+		OutputStrDFmen = pd.DataFrame(self.men)
+		WriterMen = pd.ExcelWriter(Data.outputNameStr + 'men' + Data.outputExtensionFile)
+		OutputStrDFMen.to_excel(WriterMen, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
+		WriterMen.save()
 
-		OutputStrDFWomens = pd.DataFrame(self.womens)
-		WriterWomens = pd.ExcelWriter(Data.outputNameStr + 'Womens' + Data.outputExtensionFile)
-		OutputStrDFWomens.to_excel(WriterWomens, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
-		WriterWomens.save()
+		OutputStrDFWomen = pd.DataFrame(self.women)
+		WriterWomen = pd.ExcelWriter(Data.outputNameStr + 'Women' + Data.outputExtensionFile)
+		OutputStrDFWomen.to_excel(WriterWomen, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
+		WriterWomen.save()
 
 
 	def StructureType(self, Data, pop, l):
 
-		'''In this structure, womens keep the same shape. Mens are fake womens with a -9 row and add a third row for each individual 
-		with a weight (0.5 for womens 1.0 for mens) 
+		'''In this structure, women keep the same shape. Men are fake women with a -9 row and add a third row for each individual 
+		with a weight (0.5 for women 1.0 for men) 
 		This method work over one populations. __init__() interprets works with all.
 
 		Parameters:
 		
-		ColSexType  == column with the 1 or 2 (mens or womens)
+		ColSexType  == column with the 1 or 2 (men or women)
 		ColPopNum == column with number of population
 		ColIndNum == column with number of each individual (or name)
 		ColMarkBegin == column where markers starts
@@ -86,9 +86,9 @@ class Structure():
 		poblacion_m = []
 
 		for each in poblacion:
-			if each[Data.ColSexType] == Data.IsWomen:
+			if each[Data.ColSexType] == Data.IsWoman:
 				poblacion_w.append(each)
-			elif each[Data.ColSexType] == Data.IsMen:
+			elif each[Data.ColSexType] == Data.IsMan:
 				poblacion_m.append(each)
 
 		markersWom_forStr = np.empty((len(poblacion_w)+Data.women4subpop[l],len(self.marker_mod)), dtype = object)#object)
