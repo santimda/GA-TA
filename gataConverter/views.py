@@ -5,6 +5,7 @@ from django.template import loader
 from gataConverter.converter import Converter
 from .models import Downloads
 from xlrd import XLRDError
+from django.urls import reverse
 
 # Create your views here.
 def index(request):
@@ -20,12 +21,12 @@ def index(request):
         if formats:
             print (formats)
             try:
-                zipFile = Converter(file,formats).convert()
-                downloads.total+=1
-                downloads.save()
-                return download(zipFile)
+                Converter(file,formats).convert()
+                return HttpResponseRedirect(reverse('download'))
             except XLRDError:
                 errorMsg = "Formato de archivo incorrecto, el archivo debe ser .xslx o .ods"
+            except:
+                 errorMsg = "Ocurrió un error en la conversión, intente nuevamente"
         else:
             errorMsg = "Debe elegir algún formato de salida"
 
@@ -36,3 +37,13 @@ def download(file):
     response = HttpResponse(file, content_type="application/zip")
     response['Content-Disposition'] = 'inline; filename=' + "formated-files.zip"
     return response
+
+def downloadFile(request):
+    try:
+        zipFile = Converter().getAndDeleteZipFile()
+        downloads = get_list_or_404(Downloads)[0]
+        downloads.total+=1
+        downloads.save()
+        return download(zipFile)
+    except FileNotFoundError:
+        raise Http404

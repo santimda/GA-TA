@@ -10,8 +10,9 @@ import shutil
 class Converter:
 
     directoryPath = "gataConverter/tmp/"
+    zipFilePath = "output"
 
-    def __init__(self, file, formats):
+    def __init__(self, file = None, formats = None):
         self.file = file
         self.formats = formats
 
@@ -38,7 +39,7 @@ class Converter:
         return filename
 
     def createZipFile(self):
-        zipFilename = shutil.make_archive("output", 'zip', self.directoryPath)
+        zipFilename = shutil.make_archive(self.zipFilePath, 'zip', self.directoryPath)
         return zipFilename
 
     def deleteTmpFiles(self):
@@ -49,3 +50,12 @@ class Converter:
                     os.unlink(file_path)
             except Exception as e:
                 print(e)
+
+    def getAndDeleteZipFile(self):
+        zipFilename = self.zipFilePath+".zip"
+        try:
+            zipFile = open(zipFilename, 'rb')
+            os.remove(zipFilename)
+            return zipFile
+        except FileNotFoundError:
+            raise FileNotFoundError
