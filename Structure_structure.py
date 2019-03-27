@@ -54,7 +54,7 @@ class Structure():
 		OutputStrDF.to_excel(Writer, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
 		Writer.save()
 
-		OutputStrDFmen = pd.DataFrame(self.men)
+		OutputStrDFMen = pd.DataFrame(self.men)
 		WriterMen = pd.ExcelWriter(Data.outputNameStr + 'men' + Data.outputExtensionFile)
 		OutputStrDFMen.to_excel(WriterMen, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
 		WriterMen.save()

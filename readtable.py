@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import os
+import sys 
 
 class Data():
 	
@@ -54,9 +55,8 @@ class Data():
 		elif len(allFile.sheet_names) == 1: 
 			sheet0 = allFile.sheet_names[0]
 
-		# Read THE sheet and Create a sheetData atribute with all the info of the file
+		# Read THE sheet and create a sheetData atribute with all the info of the file
 		self.sheetData = allFile.parse(sheet0)
-		
 		# create column name and column values 
 		self.nameColumn, self.fileValues = self.sortData()
 		self.n_women, self.n_men, self.total_MenWomen = self.Women() 	
