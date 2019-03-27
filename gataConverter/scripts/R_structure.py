@@ -50,6 +50,8 @@ class R():
 		np.savetxt(Data.outputNameR+'.txt', self.data, fmt='%4d', header = self.header, comments = '')
 		# convert .txt in a spreadsheet
 		os.system('ssconvert '+Data.outputNameR+'.txt '+Data.outputNameR+'.xlsx')
+		# Remove the temporary .txt file
+		os.remove(Data.outputNameR+'.txt')
 
 		
 	def RType(self, Data, pop):

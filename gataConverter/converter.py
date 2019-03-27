@@ -9,8 +9,8 @@ import shutil
 
 class Converter:
 
-    directoryPath = "gataConverter/tmp/"
-    zipFilePath = "output"
+    directoryPath = "gataConverter/tmp/convertedFiles/"
+    zipFilePath = "gataConverter/tmp/output"
 
     def __init__(self, file = None, formats = None):
         self.file = file

@@ -7,5 +7,6 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('download', views.downloadFile, name='download'),
+    path('sampleFile', views.sampleFile, name='sampleFile'),
 ]
 
