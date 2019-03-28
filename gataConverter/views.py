@@ -7,9 +7,11 @@ from .models import Downloads
 from xlrd import XLRDError
 from django.utils.datastructures import MultiValueDictKeyError
 from django.urls import reverse
+import logging
 
 # Create your views here.
 def index(request):
+    logger = getAppLogger()
     downloads = getDownloads()
     errorMsg = ''
     if request.method == 'POST':  
@@ -22,32 +24,41 @@ def index(request):
             if formats:
                 try:
                     Converter(file,formats).convert()
+                    logger.info("[INFO]: file converted")
                     downloads.total+=1
                     downloads.save()
                     return render(request, 'gataConverter/index.html', {'downloads': downloads.total,'errorMsg': errorMsg,'isDownload':True})
-                except XLRDError:
+                except XLRDError as error:
+                    logger.error("[ERROR]: ")
+                    logger.exception(error)
                     errorMsg = "Incorrect file format, the file must be .xslx or .ods"
-                except:
-                     errorMsg = "An error occurred during conversion, try again"
+                except Exception as error:
+                    logger.error("[ERROR]: " )
+                    logger.exception(error)
+                    errorMsg = "An error occurred during conversion, try again"
             else:
                 errorMsg = "You must choose some output format"
 
     return render(request, 'gataConverter/index.html', {'downloads': downloads.total,'errorMsg': errorMsg,'isDownload':False})
 
 def downloadFile(request):
+    logger = getAppLogger()
     try:
         zipFile = Converter().getAndDeleteZipFile()
         response = HttpResponse(zipFile, content_type="application/zip")
         response['Content-Disposition'] = 'inline; filename=' + "converted-files.zip"
+        logger.info("[INFO]: zip downloaded")
         return response
     except FileNotFoundError:
         raise Http404
 
 def sampleFile(request):
+    logger = getAppLogger()
     try:
         sampleFile = open("gataConverter/sampleFiles/planilla_generica.xlsx", 'rb')
         response = HttpResponse(sampleFile, content_type="application/vnd.ms-excel")
         response['Content-Disposition'] = 'inline; filename=' + "example-sheet.xlsx"
+        logger.info("[INFO]: Sample file downloaded")
         return response
     except FileNotFoundError:
         raise Http404
@@ -59,3 +70,6 @@ def getDownloads():
         downloads = Downloads(total=0)
         downloads.save()
     return downloads
+
+def getAppLogger():
+    return logging.getLogger("gata-logger")

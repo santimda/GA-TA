@@ -27,7 +27,6 @@ class Converter:
             os.remove(filename)
             zipFile = self.createZipFile()
         except XLRDError:
-            print (filename)
             raise XLRDError
         finally:
             self.deleteTmpFiles()
@@ -45,17 +44,11 @@ class Converter:
     def deleteTmpFiles(self):
         for the_file in os.listdir(self.directoryPath):
             file_path = os.path.join(self.directoryPath, the_file)
-            try:
-                if os.path.isfile(file_path):
-                    os.unlink(file_path)
-            except Exception as e:
-                print(e)
+            if os.path.isfile(file_path):
+                os.unlink(file_path)
 
     def getAndDeleteZipFile(self):
         zipFilename = self.zipFilePath+".zip"
-        try:
-            zipFile = open(zipFilename, 'rb')
-            os.remove(zipFilename)
-            return zipFile
-        except FileNotFoundError:
-            raise FileNotFoundError
+        zipFile = open(zipFilename, 'rb')
+        os.remove(zipFilename)
+        return zipFile
