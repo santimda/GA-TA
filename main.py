@@ -1,17 +1,15 @@
 """ ========== Genetic Aplications: Table Adapter (GA:TA) =========
 
-This soft ....
+This software was developed thanks to finantial support from CONICET (Argentina)
 
-Authors (alfabetic order): del Palacio, S.; Di Santo, P.; Gamboa Lerena, M. M.
-contact: 
+Authors (alphabetical order): del Palacio, S.; Di Santo, P.; Gamboa Lerena, M. M.
+Contact: unlpbiotec@gmail.com
 
-Thanks to Federico Lopez Armengol for help to think the meta structure and for teach us Github (jaja), Fernando.... 
+Thanks to Federico Lopez Armengol for helping us with the meta structure and Github usage
 
-Late upload: January 2019
-
+Latest upload: March 2019
 
 """
-
 
 import sys
 import os
@@ -25,6 +23,7 @@ from Structure_structure import Structure
 '''Call the class to read the input table and store information'''
 #read the table and return a data with many atributes
 
+# Condition that no argument equals to producing all outputs (currently 3 tables)
 if len(sys.argv) == 3:
 	argum = set(sys.argv[1].lower())
 	data = Data(sys.argv[2])
@@ -33,16 +32,16 @@ else:
 	data = Data(sys.argv[1]) 
 
 if data.info:
-	print '{0} file contains: {1} total number of persons in study, with {2} womens and {3} mens.'.format(
-	sys.argv[1], data.total_MenWomen, data.n_women, data.n_men)
-	print 'The investigation has {0} subpopulations with: {1} persons each one'.format(data.totalPopulations, data.n_each_population)
-	print 'Number of markers: {0} and are: {1}'.format(data.n_markers, data.markers)
-	print np.shape(data.markers)
-	print 'Women per subpop', data.women4subpop
+	print '{0} file contains {1} individuals: {2} women and {3} men.'.format(
+	sys.argv[2], data.total_MenWomen, data.n_women, data.n_men)
+	print 'The sheet has {0} subpopulations, each one with {1} individuals'.format(data.totalPopulations, data.n_each_population)
+	print 'Number of markers: {0}. Marker names: {1}'.format(data.n_markers, data.markers)
+	#print np.shape(data.markers)
+	print 'Women per subpopulation', data.women4subpop
 
-	print 'Mens per subpop', data.men4subpop
+	print 'Men per subpopulation', data.men4subpop
 
-	print 'filevalues shape', np.shape(data.fileValues)
+	print 'Filevalues dimensions', np.shape(data.fileValues)
 
 if 'r' in argum:
 	R(data)
@@ -55,7 +54,5 @@ if 's' in argum:
 
 #if not 'r' in argum or not 'a' in argum or not 's' in argum: 
 #	raise ValueError('You have to specify r (for R), a (for Arlequin) or s (for Structure) parameter.')
-
-
 
 

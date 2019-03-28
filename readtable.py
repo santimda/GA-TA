@@ -1,44 +1,45 @@
 import numpy as np
 import pandas as pd
 import os
+import sys 
 
 class Data():
-	
-	'''a person is any one in the file'''
 	
 	def __init__(self, inputTable):
 		
 		'''
 		Input:
 
-			. inputTable = data file name. 	Rows: persons, 
-											Cols: 1-identification, 2-sex (1 (M) or 2 (F)), 3-id of population, 4 to N markers 
+			. inputTable = data file name. 	
+				Rows: 1 = column infomation, 2 to last = individuals, 
+				Cols: 1 = population name, 2 = individual number, 3 = sex (1 = M, 2 = F), 4 = population number, 5 to last=markers 
 
 		Return:
 
 			A set of atributes.
 
-			. nameColumn: Columns names. Type = numpy.array (strings) with shape = (3 + #OfMarkers., )  
-			. fileValues: Array with all the values (id, sex, pop and markers). 
-							Type = numpy.array, shape = (#persons, 3+#OfMarkers)
-			. n_women: Total number of womens in the file. Type = int
-			. n_men Total number of mens in the file. Type = int
-			. total_MenWomen: n_women + n_men
-			. men4subpop: #mens inside each subpopulation. 
-							Type = list (integers) with shape = (#SubPopulation)
-			. women4subpop: #womens inside each subpopulation. 
-							Type = list (integers) with shape = (#SubPopulation)
-			. n_each_population: Total number of persons in each subpopulation.
-							Type = numpy.array (integers) with shape = (#SubPopulation)  
-			. totalPopulations: #SubPopulations in the file. Type = int
-			. populations: Data Info of the entire file. Type = list (arrays) with shape = (#SubPop)
-			. n_markers: #OfMarkers. Type = int
-			. markers: Name of markers. Type = numpy.array (strings) with shape = (#OfMarkers)
+			. nameColumn: column names. Type = numpy.array (strings) with shape = (4 + number of markers)  
+			. fileValues: array with all the values (id, sex, pop and markers)
+							Type = numpy.array, shape = (number of individuals, 4 + number of markers)
+			. n_women: total number of women in the file. Type = int
+			. n_men: total number of men in the file. Type = int
+			. total_MenWomen: total number of individuals in the file (n_women + n_men)
+			. men4subpop: number of men in each subpopulation
+							Type = list (integers) with shape = (number of subpopulations)
+			. women4subpop: number of women in each subpopulation 
+							Type = list (integers) with shape = (number of subpopulations)
+			. n_each_population: total number of individuals in each subpopulation
+							Type = numpy.array (integers) with shape = (number of subpopulations)  
+			. totalPopulations: number of subpopulations in the file. Type = int
+			. populations: Data Info of the entire file. Type = list (arrays) with shape = (number of subpopulations)
+			. n_markers: number of markers. Type = int
+			. markers: name of markers. Type = numpy.array (strings) with shape = (number of markers)
 		
-		__init__ use Pandas for read only one Sheet of the Excel file. '''
+		__init__ use Pandas for reading only one sheet of the Excel file. '''
 		
 		self.file = inputTable
 
+		# Convert .ods to .xlsx if needed
 		if self.file.split('.')[-1] == 'ods':
 			os.system('ssconvert '+ self.file + ' '+ self.file.split('.')[0]+'.xlsx')
 			self.file = self.file.split('.')[0]+'.xlsx'
@@ -54,41 +55,40 @@ class Data():
 		elif len(allFile.sheet_names) == 1: 
 			sheet0 = allFile.sheet_names[0]
 
-		# Read THE sheet and Create a sheetData atribute with all the info of the file
+		# Read THE sheet and create a sheetData atribute with all the info of the file
 		self.sheetData = allFile.parse(sheet0)
-		
 		# create column name and column values 
 		self.nameColumn, self.fileValues = self.sortData()
-		self.n_women, self.n_men, self.total_MenWomen = self.WoMens() 	
+		self.n_women, self.n_men, self.total_MenWomen = self.Women() 	
 		self.men4subpop, self.women4subpop, self.n_each_population, self.totalPopulations,self.populations = self.Populations()
 		self.n_markers, self.markers = self.Markers()
 
 	def Parameters(self):
 			
 		'''
-		Hardcoded parameters for test table planilla_generica.xlsx. To be modified?
+		Hardcoded parameters for testing table generic_table.xlsx
 
 		info == [boolean] print some info of the input file
-		ColSexType  == [int] column with the 1 or 2 (mens or womens)
+		ColSexType  == [int] column with 1 or 2 (man or woman)
 		ColPopNum == [int] column with number of population
-		ColIndNum == [int]column with number of each individual (or name)
-		ColMarkBegin == [int] column where markers starts
+		ColIndNum == [int] column with number of each individual (or name)
+		ColMarkBegin == [int] column in which markers start
 		
 		outputNameR == [str] prefix output name
 		
-		ARLQINDEX == [int] 1 #same kind of sex for Arlequin
-		MARKER == [int?] set marker param for the table
+		ARLQINDEX == [int] same kind of sex for Arlequin
+		MARKER == [int] set marker param for the table
 		outputNameArlq == [str] prefix output name
 		
-		STRWom == [float] Structure women param for fill 
-		STRMen == [float] Structure women param for fill 
+		STRWom == [float] Structure women param for filling
+		STRMen == [float] Structure men param for filling
 		outputNameStr == [str] prefix output name
 		
 		'''
 		self.info = True
 
-		self.IsMen = 1
-		self.IsWomen = 2
+		self.IsMan = 1
+		self.IsWoman = 2
 		self.ColPopName = 0 
 		self.ColIndNum = 1
 		self.ColSexType = 2
@@ -97,13 +97,13 @@ class Data():
 
 		self.outputNameR = 'Output_R_' + self.file.split('.')[0]
 	
-		self.ARLQINDEX = 1 #same kind of sex for Arlequin
+		self.ARLQINDEX = 1 #same type of sex for Arlequin
 		self.MARKER = -9
-		self.outputNameArlq = 'Output_Arlq_' + self.file.split('.')[0]
+		self.outputNameArlq = 'Output_Arlequin_' + self.file.split('.')[0]
 
 		self.STRWom = 0.5
 		self.STRMen = 1.0
-		self.outputNameStr = 'Output_Str_' + self.file.split('.')[0]
+		self.outputNameStr = 'Output_Structure_' + self.file.split('.')[0]
 
 		self.outputExtensionFile = '.xlsx'
 
@@ -123,11 +123,11 @@ class Data():
 		return np.array(columnName), np.array(columnValues)
 
 	
-	def WoMens(self):
+	def Women(self):
 		'''
-		ColSexType  == column with the 1 or 2 (mens or womens)
+		ColSexType  == column with the 1 or 2 (man or woman)
 
-		return: number of women, mens and total in the file
+		return: number of women, men and total individuals in the file
 
 		'''
 		countWomen = 0
@@ -144,9 +144,9 @@ class Data():
 
 	def Populations(self):
 		'''
-		ColSexType  == column with the 1 or 2 (mens or womens)
+		ColSexType  == column with the 1 or 2 (man or woman)
 		ColPopNum == column with number of population
-		return: total number of populations of the study
+		return: total number of populations in the spreadsheet
 
 		'''
 		countWomen = []
@@ -157,30 +157,30 @@ class Data():
 		countWomen_i = 0
 		countMen_i = 0
 		
-		#inicializo la primer subpoblacion
-		#pop_index = array que toma etiquetas de poblaciones
-		#sex_index = array con los valores del sexo
+		# initialize the first subpopulation 
+		# pop_index = array with the population tags
+		# sex_index = array with the sex values
 
 		sex_index, pop_index = self.fileValues.T[self.ColSexType], self.fileValues.T[self.ColPopNum]
 		index = pop_index[0]
 
-		# will store women and mens for each population. shape(popul) = (#populations,...)
+		# store women and men for each population. shape(popul) = (number of populations,...)
 		popul = []
 
 		# count for each subpopulation
 		aux=[]
 		for i,each in enumerate(pop_index):
 			
-			# auxiliar for save mens and women for one population
+			# auxiliar for saving number of men and women for one population
 			if each == index and sex_index[i] == 2:
-				#count a women
+				#count women
 				countWomen_i += 1
 				aux.append(self.fileValues[i])
 			elif each == index and sex_index[i] == 1:
-				#count a men
+				#count men
 				countMen_i += 1
 				aux.append(self.fileValues[i])
-			# partial save of women and men populations if i<len() then we continue saveing, if not, then save the last populations
+			# partial saving of women and men populations: if i<len() continue, else save the last population
 			if i < len(pop_index)-1 and pop_index[i+1] == index + 1:
 				index += 1    
 				countWomen.append(countWomen_i/2)

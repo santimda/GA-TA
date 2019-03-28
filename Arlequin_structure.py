@@ -14,8 +14,8 @@ class Arlequin():
 		subpop1_w = Data.women4subpop
 		subpop1_m = Data.men4subpop
 		
-		self.womens = []
-		self.mens = []
+		self.women = []
+		self.men = []
 
 		# Define Arlequin markers type
 		self.marker_mod = []
@@ -33,18 +33,18 @@ class Arlequin():
 
 		for each_pop in Data.populations:
 			auxPop = self.ArlequinType(Data, each_pop)
-			self.womens.append(auxPop[0])
-			self.mens.append(auxPop[1]) 
+			self.women.append(auxPop[0])
+			self.men.append(auxPop[1]) 
 
 		self.data = []
-		for i in range(len(self.womens)):
-			self.data.append(np.concatenate((self.womens[i], self.mens[i]), axis = 0) ) 
+		for i in range(len(self.women)):
+			self.data.append(np.concatenate((self.women[i], self.men[i]), axis = 0) ) 
 
 		self.data = np.concatenate(self.data, axis = 0)
 
-		self.mens = np.concatenate(self.mens, axis = 0)
+		self.men = np.concatenate(self.men, axis = 0)
 
-		self.womens = np.concatenate(self.womens, axis = 0)
+		self.women = np.concatenate(self.women, axis = 0)
 		# Save data to a file
 		self.Output(Data)
 
@@ -57,29 +57,29 @@ class Arlequin():
 		OutputArlqDF.to_excel(Writer, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
 		Writer.save()
 
-		OutputArlqDFMens = pd.DataFrame(self.mens)
-		WriterMens = pd.ExcelWriter(Data.outputNameArlq + 'Mens' + Data.outputExtensionFile)
-		OutputArlqDFMens.to_excel(WriterMens, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
-		WriterMens.save()
+		OutputArlqDFMen = pd.DataFrame(self.men)
+		WriterMen = pd.ExcelWriter(Data.outputNameArlq + 'Men' + Data.outputExtensionFile)
+		OutputArlqDFMen.to_excel(WriterMen, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
+		WriterMen.save()
 
-		OutputArlqDFWomens = pd.DataFrame(self.womens)
-		WriterWomens = pd.ExcelWriter(Data.outputNameArlq + 'Womens' + Data.outputExtensionFile)
-		OutputArlqDFWomens.to_excel(WriterWomens, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
-		WriterWomens.save()
+		OutputArlqDFWomen = pd.DataFrame(self.women)
+		WriterWomen = pd.ExcelWriter(Data.outputNameArlq + 'Women' + Data.outputExtensionFile)
+		OutputArlqDFWomen.to_excel(WriterWomen, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
+		WriterWomen.save()
 
 	def ArlequinType(self, Data, pop):
 
-		'''In this structure, womens keep the same shape. 
-		This method work over one populations. __init__() interprets works with all.
+		'''In this structure, women keep the same format. 
+		This method works over one population. __init__() interprets all.
 		
 		Parameters:
 		
-		ColSexType  == column with the 1 or 2 (mens or womens)
+		ColSexType  == column with the 1 or 2 (man or woman)
 		ColPopNum == column with number of population
-		ColIndNum == column with number of each individual (or name)
-		ColMarkBegin == column where markers starts
-		ARLQINDEX = 1 #same kind of sex for Arlequin
-		MARKER = -9
+		ColIndNum == column with number of each individual
+		ColMarkBegin == column where markers start
+		ARLQINDEX = 1 , same kind of sex for Arlequin
+		MARKER = -9 for missing data
 
 		Return: 
 
@@ -91,16 +91,16 @@ class Arlequin():
 		poblacion_m = []
 
 		for each in poblacion:
-			if each[Data.ColSexType] == Data.IsWomen:
+			if each[Data.ColSexType] == Data.IsWoman:
 				poblacion_w.append(each)
-			elif each[Data.ColSexType] == Data.IsMen:
+			elif each[Data.ColSexType] == Data.IsMan:
 				poblacion_m.append(each)
 		
-		# Does man pop (fake womes) odd or even?:
+		# Checks if the male population (=fake women) is odd or even:
 		if len(poblacion_m)%2 == 0:
 			pass
 		elif len(poblacion_m)%2 == 1:
-			# tengo que generalizarlo por si no es -9 el marcador que hace referencia a MissingData
+			# Missing data is set to -9 (can be changed if needed)
 			poblacion_m.append([-9 for x in range(np.shape(poblacion_m)[1])])
 
 		markersWom_forArlq = np.empty((len(poblacion_w),len(self.marker_mod)), dtype = object)#np.int8)
