@@ -1,0 +1,13 @@
+To run the app install:
+ - python3
+ - pip (python3)
+Then run:
+ - pip install Django  (version 2.1)
+ - pip install openpyxl
+ - pip install xlrd
+ - pip install pandas
+ - pip install numpy
+ - apt-get install --no-install-recommends gnumeric
+Inside project folder run:
+ - python3 manage.py migrate
+ - python3 manage.py runserver
