@@ -63,6 +63,17 @@ def sampleFile(request):
     except FileNotFoundError:
         raise Http404
 
+def manual(request):
+    logger = getAppLogger()
+    try:
+        sampleFile = open("gataConverter/sampleFiles/manual.pdf", 'rb')
+        response = HttpResponse(sampleFile, content_type="application/pdf")
+        response['Content-Disposition'] = 'inline; filename=' + "manual.pdf"
+        logger.info("[INFO]: Manual downloaded")
+        return response
+    except FileNotFoundError:
+        raise Http404
+
 def getDownloads():
     try:
         downloads = get_list_or_404(Downloads)[0]

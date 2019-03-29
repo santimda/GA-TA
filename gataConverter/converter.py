@@ -1,6 +1,7 @@
 from gataConverter.scripts.readtable import Data
 from gataConverter.scripts.Arlequin_structure import Arlequin
 from gataConverter.scripts.R_structure import R
+from gataConverter.scripts.Structure_structure import Structure
 from django.core.files.storage import FileSystemStorage
 from xlrd import XLRDError
 import os
@@ -24,6 +25,8 @@ class Converter:
                 Arlequin(data)
             if 'r' in self.formats:
                 R(data)
+            if 's' in self.formats:
+                Structure(data)
             os.remove(filename)
             zipFile = self.createZipFile()
         except XLRDError:
