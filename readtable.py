@@ -47,7 +47,7 @@ class Data():
 		# Load file parameters
 		self.Parameters()		
 		
-		allFile = pd.ExcelFile(self.file, sheetname = 0)
+		allFile = pd.ExcelFile(self.file)
 
 		# Only one sheet admited  
 		if len(allFile.sheet_names) > 1: 
@@ -95,15 +95,15 @@ class Data():
 		self.ColPopNum = 3
 		self.ColMarkBegin = 4
 
-		self.outputNameR = 'Output_R_' + self.file.split('.')[0]
+		self.outputNameR = self.file.split('.')[0] + '_R'
 	
 		self.ARLQINDEX = 1 #same type of sex for Arlequin
 		self.MARKER = -9
-		self.outputNameArlq = 'Output_Arlequin_' + self.file.split('.')[0]
+		self.outputNameArlq = self.file.split('.')[0] + '_Arlequin'
 
 		self.STRWom = 0.5
 		self.STRMen = 1.0
-		self.outputNameStr = 'Output_Structure_' + self.file.split('.')[0]
+		self.outputNameStr = self.file.split('.')[0] + '_Structure'
 
 		self.outputExtensionFile = '.xlsx'
 

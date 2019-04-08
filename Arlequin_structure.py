@@ -34,7 +34,7 @@ class Arlequin():
 		for each_pop in Data.populations:
 			auxPop = self.ArlequinType(Data, each_pop)
 			self.women.append(auxPop[0])
-			self.men.append(auxPop[1]) 
+			self.men.append(auxPop[1])
 
 		self.data = []
 		for i in range(len(self.women)):

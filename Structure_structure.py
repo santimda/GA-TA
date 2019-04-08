@@ -91,7 +91,7 @@ class Structure():
 			elif each[Data.ColSexType] == Data.IsMan:
 				poblacion_m.append(each)
 
-		markersWom_forStr = np.empty((len(poblacion_w)+Data.women4subpop[l],len(self.marker_mod)), dtype = object)#object)
+		markersWom_forStr = np.empty((len(poblacion_w)+int(Data.women4subpop[l]),len(self.marker_mod)), dtype = object)#object)
 		markersMen_forStr = np.empty((len(poblacion_m)+2*Data.men4subpop[l],len(self.marker_mod)), dtype = object)#object)
 
 		count_w = 0
