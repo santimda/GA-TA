@@ -1,33 +1,28 @@
 # GA-TA 
 
 ## Introduction
-**GA-TA** is a bla bla bla
+**GA-TA**  program is used to convert an easy-to-build generic table into more complex tables in the specific format required to use with Structure, Arlequin, and R softwares. GA-TA is applicable to autosomic, mitochondrial and X chromosome data. The program is written in Python under an open source policy, allowing experienced users to download the program from the github repository (https://github.com/santimda/GA-TA) and adapt it by adding new modules upon convenience. A stable version of the program can be executed online at (FCAGLP-GA-TA).
 
 ## Functionalities
 
-The excecution command line: $python main.py [OPTIONS] SPREADSHEET . 
+To execute the program from the command line, run:
 
-[OPTIONS]: The user can specify one, two or three letters, each one corresponds to the output tables: R (r), Arlequin (a) and/or Structure (s) respectivly. If the user do not specify any options, info of SPREADSHEET will be showed by terminal. 
+   >$ python main.py [OPTIONS] <spreadsheet_name>  
 
-SPREADSHEET: Can be with Excel extention and with open office '.ods'
-Examples:	$ python main.py ra spreadsheet.xlsx
-			it will return output files for R and Arlequin
+[OPTIONS]: The user can specify one, two or three letters (in any order) to obtain the desired output tables. These are: "r" for R, "a" for Arlequin, and "s" for Structure. 
 
-			$ python main.py s spreadsheet.xlsx
-			it will return output file for Structure
-			
-Output: por cada planilla solicitada en [OPTIONS] devuelve: 1 sólo mujeres, 1 sólo hombres y 1 combinando hombres y mujeres (agrupados por población). Para R devuelve, además, un archivo en formato .txt 
-		
-Warning: The first line must not to be white, it should be the header of the input file, otherwise will show an ErrorMsg
+The spradsheet must be either in Excel extention '.xlsx' or in open office '.ods'
 
-Warning: All the columns with information must to have a NameColumn, otherwise, will not be read the colmn info
+Examples:
 
-### Arlequin
-ble ble ble
+	>$ python main.py ra spreadsheet.xlsx
 
-### R
+will return output files for R and Arlequin.
 
-R_structure is the module that generate the output table for R software. Done it.
+	>$ python main.py s spreadsheet.xlsx
 
-### Structure
-blo blo blo
+will return output files for Structure.
+
+## Considerations 
+
+All columns with information must have a name, otherwise, the program will not be read the column information and the program will show an error message. An example sheet along with a more detailed manual can be downloaded from FCAGLP-GA-TA.
