@@ -25,4 +25,4 @@ will return output files for Structure.
 
 ## Considerations 
 
-All columns with information must have a name, otherwise, the program will not be read the column information and the program will show an error message. An example sheet along with a more detailed manual can be downloaded from FCAGLP-GA-TA.
+All columns with information must have a name (e.g., there cannot be a blank cell in the first row for any column with information). An example sheet along with a more detailed manual can be downloaded from FCAGLP-GA-TA.
