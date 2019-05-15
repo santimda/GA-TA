@@ -1,9 +1,12 @@
 # GA-TA 
 
 ## Introduction
-**GA-TA**  program is used to convert an easy-to-build generic table into more complex tables in the specific format required to use with Structure, Arlequin, and R softwares. GA-TA is applicable to autosomic, mitochondrial and X chromosome data. The program is written in Python under an open source policy, allowing experienced users to download the program from the github repository (https://github.com/santimda/GA-TA) and adapt it by adding new modules upon convenience. A stable version of the program can be executed online at (FCAGLP-GA-TA).
+**GA-TA**  program is used to convert an easy-to-build generic table into more complex tables in the specific format required to use with Structure, Arlequin, and R softwares. GA-TA is applicable to autosomic, mitochondrial and X chromosome data. The program is written in Python under an open source policy, allowing experienced users to download the program from the github repository (https://github.com/santimda/GA-TA) and adapt it by adding new modules upon convenience.
 
-## Functionalities
+## Running online
+ A stable version of the program can be executed on a friendly user environment on this [GA-TA website](http://gata.fcaglp.unlp.edu.ar/).
+
+## Running on terminal
 
 To execute the program from the command line, run:
 
@@ -25,4 +28,4 @@ will return output files for Structure.
 
 ## Considerations 
 
-All columns with information must have a name, otherwise, the program will not be read the column information and the program will show an error message. An example sheet along with a more detailed manual can be downloaded from FCAGLP-GA-TA.
+All columns with information must have a name (e.g., there cannot be a blank cell in the first row for any column with information). An example sheet along with a more detailed manual can be downloaded from the [GA-TA website](http://gata.fcaglp.unlp.edu.ar/).
