@@ -19,7 +19,7 @@ class Arlequin():
 
 		# Define Arlequin markers type
 		self.marker_mod = []
-		# The first two columns are indivudual number (reset for each subpopulation) and population number, then markers.
+		# The first two columns are indivudual number (reset for each subpopulation) and population number, then markers
 		self.marker_mod.append(str('IND'))
 		self.marker_mod.append(str('POP'))
 

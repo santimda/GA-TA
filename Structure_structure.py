@@ -19,7 +19,7 @@ class Structure():
 
 		# Define Structure markers type
 		self.marker_mod = []
-		# The first column is population number, then markers.
+		# The first column is population number, then markers
 		self.marker_mod.append(str('POP'))
 		for each in Data.markers:
 			self.marker_mod.append(str(each).strip())

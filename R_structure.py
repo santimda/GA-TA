@@ -20,7 +20,7 @@ class R():
 
 		# Define R markers type
 		self.marker_mod = []
-		# The first two columns are individual number (which resets for each subpopulation) and population number. 
+		# The first two columns are individual number (which resets for each subpopulation) and population number
 		# Next columns are markers.
 		self.marker_mod.append(str('IND'))
 		self.marker_mod.append(str('POP'))
