@@ -37,10 +37,15 @@ class R():
 		for i in range(len(self.women)):
 			self.data.append(np.concatenate((self.women[i], self.men[i]), axis = 0) ) 
 
-		self.data = np.concatenate(self.data, axis = 0)
 		self.header = ''
 		for i in self.marker_mod:
 			self.header = self.header + '{:7s}\t'.format(i)
+
+		self.data = np.concatenate(self.data, axis = 0)
+
+		self.men = np.concatenate(self.men, axis = 0)
+
+		self.women = np.concatenate(self.women, axis = 0)
 
 		#Save data to a file
 		self.Output(Data)
@@ -53,6 +58,33 @@ class R():
 		os.system('ssconvert '+Data.outputNameR+'.txt '+Data.outputNameR+'.xlsx')
 		# Remove the temporary .txt file
 		os.remove(Data.outputNameR+'.txt')
+
+		np.savetxt(Data.outputNameR+'Men.txt', self.men, fmt='%4d', header = self.header, comments = '')
+		# convert .txt in a spreadsheet
+		os.system('ssconvert '+Data.outputNameR+'Men.txt '+Data.outputNameR+'Men.xlsx')
+		# Remove the temporary .txt file
+		os.remove(Data.outputNameR+'Men.txt')
+
+		np.savetxt(Data.outputNameR+'Women.txt', self.women, fmt='%4d', header = self.header, comments = '')
+		# convert .txt in a spreadsheet
+		os.system('ssconvert '+Data.outputNameR+'Women.txt '+Data.outputNameR+'Women.xlsx')
+		# Remove the temporary .txt file
+		os.remove(Data.outputNameR+'Women.txt')
+
+#		OutputRDF = pd.DataFrame(self.data)
+#		Writer = pd.ExcelWriter(Data.outputNameR + Data.outputExtensionFile)
+#		OutputRDF.to_excel(Writer, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
+#		Writer.save()
+
+#		OutputRDFMen = pd.DataFrame(self.men)
+#		WriterMen = pd.ExcelWriter(Data.outputNameR + 'Men' + Data.outputExtensionFile)
+#		OutputRDFMen.to_excel(WriterMen, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
+#		WriterMen.save()
+
+#		OutputRDFWomen = pd.DataFrame(self.women)
+#		WriterWomen = pd.ExcelWriter(Data.outputNameR + 'Women' + Data.outputExtensionFile)
+#		OutputRDFWomen.to_excel(WriterWomen, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
+#		WriterWomen.save()
 
 	def RType(self, Data, pop):
 		'''Modify women and men:
@@ -72,45 +104,45 @@ class R():
 		#ColPopNum = 3
 		#ColMarkBegin = 4
 
-		poblacion = pop 
-		poblacion_w = []
-		poblacion_m = []
+		population = pop 
+		population_w = []
+		population_m = []
 
-		for each in poblacion:
+		for each in population:
 			if each[Data.ColSexType] == Data.IsWoman:
-				poblacion_w.append(each)
+				population_w.append(each)
 			elif each[Data.ColSexType] == Data.IsMan:
-				poblacion_m.append(each)
+				population_m.append(each)
 	 
-		markersWom_forR = np.empty((len(poblacion_w)//2,len(self.marker_mod)), dtype = np.int8)
+		markersWom_forR = np.empty((len(population_w)//2,len(self.marker_mod)), dtype = np.int8)
 	
-		for i in range(0,len(poblacion_w),2):
-			markersWom_forR[i//2,0] = int(poblacion_w[i][Data.ColIndNum]) 
-			markersWom_forR[i//2,1] = int(poblacion_w[i][Data.ColPopNum]) 
+		for i in range(0,len(population_w),2):
+			markersWom_forR[i//2,0] = int(population_w[i][Data.ColIndNum]) 
+			markersWom_forR[i//2,1] = int(population_w[i][Data.ColPopNum]) 
 			for j in range(0, 2*len(Data.markers), 2):
 					j+=1
-					markersWom_forR[i//2,j+1] = int(poblacion_w[i][Data.ColMarkBegin+j//2])
-					markersWom_forR[i//2,j+2] = int(poblacion_w[i+1][Data.ColMarkBegin+j//2])
+					markersWom_forR[i//2,j+1] = int(population_w[i][Data.ColMarkBegin+j//2])
+					markersWom_forR[i//2,j+2] = int(population_w[i+1][Data.ColMarkBegin+j//2])
 		
 		# Men. Take into account if number of men is odd or even
 
-		if len(poblacion_m)%2 == 0:
+		if len(population_m)%2 == 0:
 			pass
-		elif len(poblacion_m)%2 == 1:
+		elif len(population_m)%2 == 1:
 			# Missing data is set to -9 (can be changed if needed)
-			poblacion_m.append([-9 for x in range(np.shape(poblacion_m)[1])])
+			population_m.append([-9 for x in range(np.shape(population_m)[1])])
 
-		markersMen_forR = np.empty((len(poblacion_m)//2,len(self.marker_mod)), dtype = np.int8)
+		markersMen_forR = np.empty((len(population_m)//2,len(self.marker_mod)), dtype = np.int8)
 
 		k = len(markersWom_forR)
-		for i in range(0,len(poblacion_m),2):
+		for i in range(0,len(population_m),2):
 			k += 1
 			markersMen_forR[i//2,0] = int(k)	# First column (new file)== individual number
-			markersMen_forR[i//2,1] = int(poblacion_m[i][Data.ColPopNum])	
+			markersMen_forR[i//2,1] = int(population_m[i][Data.ColPopNum])	
 			for j in range(0, 2*len(Data.markers),2):
 				j+=1
-				markersMen_forR[i//2,j+1] = int(poblacion_m[i][Data.ColMarkBegin+j//2])
-				markersMen_forR[i//2,j+2] = int(poblacion_m[i+1][Data.ColMarkBegin+j//2])
+				markersMen_forR[i//2,j+1] = int(population_m[i][Data.ColMarkBegin+j//2])
+				markersMen_forR[i//2,j+2] = int(population_m[i+1][Data.ColMarkBegin+j//2])
 		
 		return markersWom_forR, markersMen_forR
 
