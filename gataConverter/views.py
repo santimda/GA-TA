@@ -55,7 +55,7 @@ def downloadFile(request):
 def sampleFile(request):
     logger = getAppLogger()
     try:
-        sampleFile = open("gataConverter/sampleFiles/planilla_generica.xlsx", 'rb')
+        sampleFile = open("gataConverter/sampleFiles/generic_table.xlsx", 'rb')
         response = HttpResponse(sampleFile, content_type="application/vnd.ms-excel")
         response['Content-Disposition'] = 'inline; filename=' + "example-sheet.xlsx"
         logger.info("[INFO]: Sample file downloaded")

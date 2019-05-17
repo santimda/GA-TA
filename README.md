@@ -10,7 +10,7 @@
 
 To execute the program from the command line, run:
 
-   >$ python main.py [OPTIONS] <spreadsheet_name>  
+   >$ python2 main.py [OPTIONS] <spreadsheet_name>  
 
 [OPTIONS]: The user can specify one, two or three letters (in any order) to obtain the desired output tables. These are: "r" for R, "a" for Arlequin, and "s" for Structure. 
 
@@ -18,11 +18,11 @@ The spradsheet must be either in Excel extention '.xlsx' or in open office '.ods
 
 Examples:
 
-	>$ python main.py ra spreadsheet.xlsx
+	>$ python2 main.py ra spreadsheet.xlsx
 
 will return output files for R and Arlequin.
 
-	>$ python main.py s spreadsheet.xlsx
+	>$ python2 main.py s spreadsheet.xlsx
 
 will return output files for Structure.
 
