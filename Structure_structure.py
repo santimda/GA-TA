@@ -8,16 +8,16 @@ class Structure():
 	def __init__(self, Data):
 
 		if not Data:
-			raise ValueError('you must to specify where Data is.')
+			raise ValueError('Data must be specified')
 
-		# Tomamos la subpoblacion 1:
+		# We take subpopulation 1:
 		subpop1_w = Data.women4subpop
 		subpop1_m = Data.men4subpop
 		
 		self.women = []
 		self.men = []
 
-		# Define Estructure markers type
+		# Define Structure markers type
 		self.marker_mod = []
 		# The first column is population number, then markers.
 		self.marker_mod.append(str('POP'))
@@ -55,7 +55,7 @@ class Structure():
 		Writer.save()
 
 		OutputStrDFMen = pd.DataFrame(self.men)
-		WriterMen = pd.ExcelWriter(Data.outputNameStr + 'men' + Data.outputExtensionFile)
+		WriterMen = pd.ExcelWriter(Data.outputNameStr + 'Men' + Data.outputExtensionFile)
 		OutputStrDFMen.to_excel(WriterMen, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
 		WriterMen.save()
 
@@ -81,43 +81,43 @@ class Structure():
 		Return: 
 		'''
 
-		poblacion = pop
-		poblacion_w = []
-		poblacion_m = []
+		population = pop
+		population_w = []
+		population_m = []
 
-		for each in poblacion:
+		for each in population:
 			if each[Data.ColSexType] == Data.IsWoman:
-				poblacion_w.append(each)
+				population_w.append(each)
 			elif each[Data.ColSexType] == Data.IsMan:
-				poblacion_m.append(each)
+				population_m.append(each)
 
-		markersWom_forStr = np.empty((len(poblacion_w)+int(Data.women4subpop[l]),len(self.marker_mod)), dtype = object)#object)
-		markersMen_forStr = np.empty((len(poblacion_m)+2*Data.men4subpop[l],len(self.marker_mod)), dtype = object)#object)
+		markersWom_forStr = np.empty((len(population_w)+int(Data.women4subpop[l]),len(self.marker_mod)), dtype = object)#object)
+		markersMen_forStr = np.empty((len(population_m)+2*Data.men4subpop[l],len(self.marker_mod)), dtype = object)#object)
 
 		count_w = 0
-		for i in range(0,len(poblacion_w),2):
+		for i in range(0,len(population_w),2):
 			
-			markersWom_forStr[count_w,0] = int(poblacion_w[i][Data.ColPopNum]) 
-			markersWom_forStr[count_w+1,0] = int(poblacion_w[i][Data.ColPopNum])
+			markersWom_forStr[count_w,0] = int(population_w[i][Data.ColPopNum]) 
+			markersWom_forStr[count_w+1,0] = int(population_w[i][Data.ColPopNum])
 			markersWom_forStr[count_w+2,0] = ' '#Data.MARKER
 
 			for j in range(1, len(self.marker_mod)):
-				markersWom_forStr[count_w,j] = int(poblacion_w[i][j + Data.ColMarkBegin - 1]) #'-1' because range() starts in 1
-				markersWom_forStr[count_w+1,j] = int(poblacion_w[i+1][j + Data.ColMarkBegin - 1])
+				markersWom_forStr[count_w,j] = int(population_w[i][j + Data.ColMarkBegin - 1]) #'-1' because range() starts in 1
+				markersWom_forStr[count_w+1,j] = int(population_w[i+1][j + Data.ColMarkBegin - 1])
 				markersWom_forStr[count_w+2,j] = Data.STRWom #np.full((1,len(Data.n_markers)), 0.5)
 
 			count_w += 3
 
 
 		count_m = 0
-		for i in range(0,len(poblacion_m)):
+		for i in range(0,len(population_m)):
 			
-			markersMen_forStr[count_m,0] = int(poblacion_m[i][Data.ColPopNum]) 
-			markersMen_forStr[count_m+1,0] = int(poblacion_m[i][Data.ColPopNum])
+			markersMen_forStr[count_m,0] = int(population_m[i][Data.ColPopNum]) 
+			markersMen_forStr[count_m+1,0] = int(population_m[i][Data.ColPopNum])
 			markersMen_forStr[count_m+2,0] = ' '#Data.MARKER 
 
 			for j in range(1, len(self.marker_mod)):
-				markersMen_forStr[count_m,j] = int(poblacion_m[i][j + Data.ColMarkBegin - 1])
+				markersMen_forStr[count_m,j] = int(population_m[i][j + Data.ColMarkBegin - 1])
 				markersMen_forStr[count_m+1,j] = Data.MARKER
 				markersMen_forStr[count_m+2,j] = Data.STRMen #np.full((1,len(Data.n_markers)), 1.0)
 

@@ -3,14 +3,14 @@ import pandas as pd
 
 class Arlequin():
 
-	''' Arlequin structure. It returns mens and womens format for Arlequin.'''
+	''' Arlequin structure. It returns men and women format for Arlequin.'''
 
 	def __init__(self, Data):
 
 		if not Data:
-			raise ValueError('you must to specify where Data is.')
+			raise ValueError('Data must be specified')
 
-		# Tomamos la subpoblacion 1:
+		# Take subpopulation 1:
 		subpop1_w = Data.women4subpop
 		subpop1_m = Data.men4subpop
 		
@@ -26,7 +26,7 @@ class Arlequin():
 		for each in Data.markers:
 			self.marker_mod.append(str(each).strip())
 
-		# self.header is only for safer programming, but it will not be in output file
+		# self.header is only for safer programming, but it will not be in the output file
 		self.header = ''
 		for i in self.marker_mod:
 			self.header = self.header + '{:7s}\t'.format(i)
@@ -85,40 +85,40 @@ class Arlequin():
 
 		'''		
 
-		poblacion = pop
-		PopName = poblacion[0][Data.ColPopName]
-		poblacion_w = []
-		poblacion_m = []
+		population = pop
+		PopName = population[0][Data.ColPopName]
+		population_w = []
+		population_m = []
 
-		for each in poblacion:
+		for each in population:
 			if each[Data.ColSexType] == Data.IsWoman:
-				poblacion_w.append(each)
+				population_w.append(each)
 			elif each[Data.ColSexType] == Data.IsMan:
-				poblacion_m.append(each)
+				population_m.append(each)
 		
 		# Checks if the male population (=fake women) is odd or even:
-		if len(poblacion_m)%2 == 0:
+		if len(population_m)%2 == 0:
 			pass
-		elif len(poblacion_m)%2 == 1:
+		elif len(population_m)%2 == 1:
 			# Missing data is set to -9 (can be changed if needed)
-			poblacion_m.append([-9 for x in range(np.shape(poblacion_m)[1])])
+			population_m.append([-9 for x in range(np.shape(population_m)[1])])
 
-		markersWom_forArlq = np.empty((len(poblacion_w),len(self.marker_mod)), dtype = object)#np.int8)
-		markersMen_forArlq = np.empty((len(poblacion_m),len(self.marker_mod)), dtype = object)#object)
+		markersWom_forArlq = np.empty((len(population_w),len(self.marker_mod)), dtype = object)#np.int8)
+		markersMen_forArlq = np.empty((len(population_m),len(self.marker_mod)), dtype = object)
 
-		for i in range(0,len(poblacion_w),2):
-			markersWom_forArlq[i,0] = PopName+str(poblacion_w[i][Data.ColIndNum])
+		for i in range(0,len(population_w),2):
+			markersWom_forArlq[i,0] = PopName+str(population_w[i][Data.ColIndNum])
 			markersWom_forArlq[i,1] = int(Data.ARLQINDEX)
 			
 			markersWom_forArlq[i+1,0] = ' ' 
 			markersWom_forArlq[i+1,1] = ' '
 			for j in range(2, len(self.marker_mod)):
-				markersWom_forArlq[i,j] = int(poblacion_w[i][j+2])
-				markersWom_forArlq[i+1,j] = int(poblacion_w[i+1][j+2])
+				markersWom_forArlq[i,j] = int(population_w[i][j+2])
+				markersWom_forArlq[i+1,j] = int(population_w[i+1][j+2])
 
-		count = len(poblacion_w)/2
+		count = len(population_w)/2
 		
-		for i in range(0,len(poblacion_m),2):
+		for i in range(0,len(population_m),2):
 			count += 1
 			markersMen_forArlq[i,0] = PopName+str(count)
 			markersMen_forArlq[i,1] = int(Data.ARLQINDEX)
@@ -127,8 +127,8 @@ class Arlequin():
 			markersMen_forArlq[i+1,1] = ' '
 			
 			for j in range(2, len(self.marker_mod)):
-				markersMen_forArlq[i,j] = int(poblacion_m[i][j+2])
-				markersMen_forArlq[i+1,j] = int(poblacion_m[i+1][j+2])
+				markersMen_forArlq[i,j] = int(population_m[i][j+2])
+				markersMen_forArlq[i+1,j] = int(population_m[i+1][j+2])
 
 		return markersWom_forArlq, markersMen_forArlq
 
