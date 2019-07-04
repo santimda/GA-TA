@@ -23,6 +23,8 @@ Latest upload: July 2019
 import numpy as np
 import pandas as pd
 
+import tools as tl
+
 class Arlequin():
 
 	""" Arlequin structure. It returns men and women format for Arlequin."""
@@ -38,6 +40,7 @@ class Arlequin():
 		
 		self.women = []
 		self.men = []
+		self.onlymenfile = [] # this array will be to renumber the popname for the men output file 
 
 		# Define Arlequin markers type
 		self.marker_mod = []
@@ -53,33 +56,41 @@ class Arlequin():
 		for i in self.marker_mod:
 			self.header = self.header + '{:7s}\t'.format(i)
 
-		for each_pop in Data.populations:
-			auxPop = self.ArlequinType(Data, each_pop)
+		for i, each_pop in enumerate(Data.populations):
+			auxPop = self.ArlequinType(Data, each_pop, Data.men4subpop[i])
 			self.women.append(auxPop[0])
 			self.men.append(auxPop[1])
 
+			newaux = np.copy(auxPop[1])
+			# Reset count number for men's file (and only for that file) starting from 01
+			self.onlymenfile.append(newaux)
+			self.onlymenfile[i] = tl.SingleMenTable(self.onlymenfile[i])
+
+		#for ie in self.men:
+		#	print(ie)
 		self.data = []
 		for i in range(len(self.women)):
 			self.data.append(np.concatenate((self.women[i], self.men[i]), axis = 0) ) 
-
+		
 		self.data = np.concatenate(self.data, axis = 0)
 
 		self.men = np.concatenate(self.men, axis = 0)
 
 		self.women = np.concatenate(self.women, axis = 0)
+
+		self.onlymenfile = np.concatenate(self.onlymenfile, axis = 0)
 		# Save data to a file
 		self.Output(Data)
 
 	def Output(self, Data):
 
 		#Save data to a file
-
 		OutputArlqDF = pd.DataFrame(self.data)
 		Writer = pd.ExcelWriter(Data.outputNameArlq + Data.outputExtensionFile)
 		OutputArlqDF.to_excel(Writer, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
 		Writer.save()
 
-		OutputArlqDFMen = pd.DataFrame(self.men)
+		OutputArlqDFMen = pd.DataFrame(self.onlymenfile)
 		WriterMen = pd.ExcelWriter(Data.outputNameArlq + 'Men' + Data.outputExtensionFile)
 		OutputArlqDFMen.to_excel(WriterMen, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
 		WriterMen.save()
@@ -89,7 +100,7 @@ class Arlequin():
 		OutputArlqDFWomen.to_excel(WriterWomen, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
 		WriterWomen.save()
 
-	def ArlequinType(self, Data, pop):
+	def ArlequinType(self, Data, pop, m4subpop):
 
 		"""
 
@@ -99,12 +110,13 @@ class Arlequin():
 		Parameters (used from Data):
 		---------
 		
-		ColSexType  == column with the 1 or 2 (man or woman)
-		ColPopNum == column with number of population
-		ColIndNum == column with number of each individual
-		ColMarkBegin == column where markers start
-		ARLQINDEX = 1 , same kind of sex for Arlequin
-		MARKER = -9 for missing data
+			ColSexType: column with the 1 or 2 (man or woman)
+			ColPopNum: column with number of population
+			ColIndNum: column with number of each individual
+			ColMarkBegin: column where markers start
+			ARLQINDEX: 1 , same kind of sex for Arlequin
+			MARKER: -9 for missing data
+			m4subpop: number of mens in the subpop. With this number we complete zfill(Fill)
 
 		Return: 
 		---------
@@ -113,6 +125,9 @@ class Arlequin():
 			markersMen_forArlq: Markers for men population
 
 		"""
+
+		# Compute number of digits of number of mens
+		Fill = int(np.log10(m4subpop))+1
 
 		population = pop
 		PopName = population[0][Data.ColPopName]
@@ -136,7 +151,7 @@ class Arlequin():
 		markersMen_forArlq = np.empty((len(population_m),len(self.marker_mod)), dtype = object)
 
 		for i in range(0,len(population_w),2):
-			markersWom_forArlq[i,0] = PopName+str(population_w[i][Data.ColIndNum])
+			markersWom_forArlq[i,0] = PopName+str(population_w[i][Data.ColIndNum]).zfill(Fill)
 			markersWom_forArlq[i,1] = int(Data.ARLQINDEX)
 			
 			markersWom_forArlq[i+1,0] = ' ' 
@@ -149,7 +164,7 @@ class Arlequin():
 		
 		for i in range(0,len(population_m),2):
 			count += 1
-			markersMen_forArlq[i,0] = PopName+str(count)
+			markersMen_forArlq[i,0] = PopName+str(count).zfill(Fill)
 			markersMen_forArlq[i,1] = int(Data.ARLQINDEX)
 
 			markersMen_forArlq[i+1,0] = ' '
