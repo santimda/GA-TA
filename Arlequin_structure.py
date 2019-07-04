@@ -1,9 +1,31 @@
+""" ========== Genetic Aplications: Table Adapter (GA:TA) =========
+
+$Id: Arlequin_structure.py
+$created: Jul 2018
+$auth(alphabetical order): del Palacio, S.; Di Santo, P.; Gamboa Lerena, M. M.
+$license: GPLv3 or later, see https://www.gnu.org/licenses/gpl-3.0.txt
+
+          This is free software: you are free to change and
+          redistribute it.  There is NO WARRANTY, to the extent
+          permitted by law.
+
+Contact: unlpbiotec@gmail.com
+Technical contact: mgamboa@fcaglp.unlp.edu.ar
+
+This software was developed thanks to finantial support from CONICET (Argentina)
+
+Thanks to Federico Lopez Armengol for helping us with the meta structure and Github usage
+
+Latest upload: July 2019
+
+"""
+
 import numpy as np
 import pandas as pd
 
 class Arlequin():
 
-	''' Arlequin structure. It returns men and women format for Arlequin.'''
+	""" Arlequin structure. It returns men and women format for Arlequin."""
 
 	def __init__(self, Data):
 
@@ -69,10 +91,13 @@ class Arlequin():
 
 	def ArlequinType(self, Data, pop):
 
-		'''In this structure, women keep the same format. 
+		"""
+
+		In this structure, women keep the same format. 
 		This method works over one population. __init__() interprets all.
 		
-		Parameters:
+		Parameters (used from Data):
+		---------
 		
 		ColSexType  == column with the 1 or 2 (man or woman)
 		ColPopNum == column with number of population
@@ -82,8 +107,12 @@ class Arlequin():
 		MARKER = -9 for missing data
 
 		Return: 
+		---------
+		
+			markersWom_forArlq: Markers for women population 
+			markersMen_forArlq: Markers for men population
 
-		'''		
+		"""
 
 		population = pop
 		PopName = population[0][Data.ColPopName]
