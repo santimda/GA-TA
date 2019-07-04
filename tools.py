@@ -43,11 +43,18 @@ def SingleMenTable(popname):
 	digits = int(np.log10(ndim))+1
 	count = 1
 	
-	for i in np.arange(0,len(namecol),2):
+	for i in np.arange(0,len(namecol)):
 		
-		string = ucd.unidecode(namecol[i])
-		string = string[:-digits] + str(count).zfill(digits)
-		namecol[i] = unicode(string)
+		if namecol[i] != ' ':
+			string = ucd.unidecode(namecol[i])
+			string = string[:-digits] + str(count).zfill(digits)
+			namecol[i] = unicode(string)
+		else:
+			string = namecol[i-1]
+			popname.T[1][i] = 1	
+			string = string[:-digits] + str(count).zfill(digits)
+			namecol[i] = unicode(string)
+
 		count+=1
 	
 	popname.T[0] = namecol
