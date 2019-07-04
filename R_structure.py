@@ -1,10 +1,32 @@
+""" ========== Genetic Aplications: Table Adapter (GA:TA) =========
+
+$Id: R_structure.py
+$created: Jul 2018
+$auth(alphabetical order): del Palacio, S.; Di Santo, P.; Gamboa Lerena, M. M.
+$license: GPLv3 or later, see https://www.gnu.org/licenses/gpl-3.0.txt
+
+          This is free software: you are free to change and
+          redistribute it.  There is NO WARRANTY, to the extent
+          permitted by law.
+
+Contact: unlpbiotec@gmail.com
+Technical contact: mgamboa@fcaglp.unlp.edu.ar
+
+This software was developed thanks to finantial support from CONICET (Argentina)
+
+Thanks to Federico Lopez Armengol for helping us with the meta structure and Github usage
+
+Latest upload: July 2019
+
+"""
+
 import numpy as np
 import pandas as pd
 import os
 
 class R():
 
-	''' R structure. It returns men and women format for R.'''
+	""" R structure. It returns men and women format for R."""
 
 	def __init__(self, Data):
 
@@ -71,38 +93,43 @@ class R():
 		# Remove the temporary .txt file
 		os.remove(Data.outputNameR+'Women.txt')
 
-#		OutputRDF = pd.DataFrame(self.data)
-#		Writer = pd.ExcelWriter(Data.outputNameR + Data.outputExtensionFile)
-#		OutputRDF.to_excel(Writer, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
-#		Writer.save()
-
-#		OutputRDFMen = pd.DataFrame(self.men)
-#		WriterMen = pd.ExcelWriter(Data.outputNameR + 'Men' + Data.outputExtensionFile)
-#		OutputRDFMen.to_excel(WriterMen, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
-#		WriterMen.save()
-
-#		OutputRDFWomen = pd.DataFrame(self.women)
-#		WriterWomen = pd.ExcelWriter(Data.outputNameR + 'Women' + Data.outputExtensionFile)
-#		OutputRDFWomen.to_excel(WriterWomen, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
-#		WriterWomen.save()
+		#OutputRDF = pd.DataFrame(self.data)
+		#Writer = pd.ExcelWriter(Data.outputNameR + Data.outputExtensionFile)
+		#OutputRDF.to_excel(Writer, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
+		#Writer.save()
+	
+		#OutputRDFMen = pd.DataFrame(self.men)
+		#WriterMen = pd.ExcelWriter(Data.outputNameR + 'Men' + Data.outputExtensionFile)
+		#OutputRDFMen.to_excel(WriterMen, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
+		#WriterMen.save()
+	
+		#OutputRDFWomen = pd.DataFrame(self.women)
+		#WriterWomen = pd.ExcelWriter(Data.outputNameR + 'Women' + Data.outputExtensionFile)
+		#OutputRDFWomen.to_excel(WriterWomen, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
+		#WriterWomen.save()
 
 	def RType(self, Data, pop):
-		'''Modify women and men:
+		
+		"""
+		Modify women and men:
 		
 		Parameters:
-		
+		-----------
 		ColIndNum == column with number of individual 
 		ColSexType == column with 1 or 2 (man or woman)
 		ColPopNum == column with number of population
+			#ColIndNum = 1
+			#ColSexType = 2
+			#ColPopNum = 3
+			#ColMarkBegin = 4
 
 		Return: 
+		-----------
+			markersWom_forR:  Markers for women population
+			markersMen_forR:  Markers for men population
+		
+		"""
 
-		'''
-
-		#ColIndNum = 1
-		#ColSexType = 2
-		#ColPopNum = 3
-		#ColMarkBegin = 4
 
 		population = pop 
 		population_w = []
