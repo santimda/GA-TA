@@ -1,27 +1,38 @@
 """ ========== Genetic Aplications: Table Adapter (GA:TA) =========
 
-This software was developed thanks to finantial support from CONICET (Argentina)
+$Id: main.py
+$created: Jul 2018
+$auth(alphabetical order): del Palacio, S.; Di Santo, P.; Gamboa Lerena, M. M.
+$license: GPLv3 or later, see https://www.gnu.org/licenses/gpl-3.0.txt
 
-Authors (alphabetical order): del Palacio, S.; Di Santo, P.; Gamboa Lerena, M. M.
+          This is free software: you are free to change and
+          redistribute it.  There is NO WARRANTY, to the extent
+          permitted by law.
+
 Contact: unlpbiotec@gmail.com
+Technical contact: mgamboa@fcaglp.unlp.edu.ar
+
+This software was developed thanks to finantial support from CONICET (Argentina)
 
 Thanks to Federico Lopez Armengol for helping us with the meta structure and Github usage
 
-Latest upload: March 2019
+Latest upload: July 2019
 
 """
 
+# Load general modules
 import sys
 import os
 import numpy as np
 import pandas as pd
+
+# Load specific modules
 from readtable import Data
 from R_structure import R
 from Arlequin_structure import Arlequin
 from Structure_structure import Structure
 
-'''Call the class to read the input table and store information'''
-#read the table and return a data with many atributes
+"""Call the class to read the input table and store information"""
 
 # Condition that no argument equals to producing all outputs (currently 3 tables)
 if len(sys.argv) == 3:
@@ -31,6 +42,7 @@ else:
 	argum = 'ras'
 	data = Data(sys.argv[1]) 
 
+# Verbose. data.info parameter is defined in Parameters() method in readtable module
 if data.info:
 	print '{0} file contains {1} individuals: {2} women and {3} men.'.format(
 	sys.argv[2], data.total_MenWomen, data.n_women, data.n_men)
@@ -51,8 +63,4 @@ if 'a' in argum:
 
 if 's' in argum:
 	Structure(data)
-
-#if not 'r' in argum or not 'a' in argum or not 's' in argum: 
-#	raise ValueError('You have to specify r (for R), a (for Arlequin) or s (for Structure) parameter.')
-
 
