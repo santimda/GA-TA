@@ -1,9 +1,32 @@
+""" ========== Genetic Aplications: Table Adapter (GA:TA) =========
+
+$Id: Structure_structure.py
+$created: Jul 2018
+$auth(alphabetical order): del Palacio, S.; Di Santo, P.; Gamboa Lerena, M. M.
+$license: GPLv3 or later, see https://www.gnu.org/licenses/gpl-3.0.txt
+
+          This is free software: you are free to change and
+          redistribute it.  There is NO WARRANTY, to the extent
+          permitted by law.
+
+Contact: unlpbiotec@gmail.com
+Technical contact: mgamboa@fcaglp.unlp.edu.ar
+
+This software was developed thanks to finantial support from CONICET (Argentina)
+
+Thanks to Federico Lopez Armengol for helping us with the meta structure and Github usage
+
+Latest upload: July 2019
+
+"""
 import numpy as np
 import pandas as pd
 
 class Structure():
 
-	''' Structure structure (forgive the redundancy). It returns men and women format for Structure.'''
+	"""
+	 Structure structure (forgive the redundancy). It returns men and women format for Structure.
+	"""
 
 	def __init__(self, Data):
 
@@ -48,6 +71,7 @@ class Structure():
 		self.Output(Data)
 
 	def Output(self, Data):
+
 		#Save data to a file
 		OutputStrDF = pd.DataFrame(self.data)
 		Writer = pd.ExcelWriter(Data.outputNameStr + Data.outputExtensionFile)
@@ -67,19 +91,24 @@ class Structure():
 
 	def StructureType(self, Data, pop, l):
 
-		'''In this structure, women keep the same shape. Men are fake women with a -9 row and add a third row for each individual 
+		"""
+
+		In this structure, women keep the same shape. Men are fake women with a -9 row and add a third row for each individual 
 		with a weight (0.5 for women 1.0 for men) 
 		This method work over one populations. __init__() interprets works with all.
 
 		Parameters:
-		
+		------------
 		ColSexType  == column with the 1 or 2 (men or women)
 		ColPopNum == column with number of population
 		ColIndNum == column with number of each individual (or name)
 		ColMarkBegin == column where markers starts
 
 		Return: 
-		'''
+		------------
+			markersWom_forStr:   Markers for women population
+			markersMen_forStr:   Markers for men population
+		"""
 
 		population = pop
 		population_w = []
