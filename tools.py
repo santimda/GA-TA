@@ -21,6 +21,7 @@ Latest upload: July 2019
 """
 
 import numpy as np
+import unidecode as ucd
 
 def SingleMenTable(popname):
 
@@ -34,26 +35,27 @@ def SingleMenTable(popname):
 	popname: array with the population name number reseted (from 1, 01, 001, etc.. depends the number of digits)
 
 	"""
-	import unidecode as ucd
-	
+
 	namecol = popname.T[0]
 	ndim = len(namecol)
 	
 	# Number of digits
 	digits = int(np.log10(ndim))+1
 	count = 1
-	
+
 	for i in np.arange(0,len(namecol)):
 		
 		if namecol[i] != ' ':
 			string = ucd.unidecode(namecol[i])
 			string = string[:-digits] + str(count).zfill(digits)
-			namecol[i] = unicode(string)
+			#namecol[i] = unicode(string)
+			namecol[i] = string
 		else:
 			string = namecol[i-1]
 			popname.T[1][i] = 1	
 			string = string[:-digits] + str(count).zfill(digits)
-			namecol[i] = unicode(string)
+			#namecol[i] = unicode(string)
+			namecol[i] = string
 
 		count+=1
 	
