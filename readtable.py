@@ -1,3 +1,25 @@
+""" ========== Genetic Aplications: Table Adapter (GA:TA) =========
+
+$Id: readtable.py
+$created: Jul 2018
+$auth(alphabetical order): del Palacio, S.; Di Santo, P.; Gamboa Lerena, M. M.
+$license: GPLv3 or later, see https://www.gnu.org/licenses/gpl-3.0.txt
+
+          This is free software: you are free to change and
+          redistribute it.  There is NO WARRANTY, to the extent
+          permitted by law.
+
+Contact: unlpbiotec@gmail.com
+Technical contact: mgamboa@fcaglp.unlp.edu.ar
+
+This software was developed thanks to finantial support from CONICET (Argentina)
+
+Thanks to Federico Lopez Armengol for helping us with the meta structure and Github usage
+
+Latest upload: July 2019
+
+"""
+
 import numpy as np
 import pandas as pd
 import os
@@ -7,15 +29,15 @@ class Data():
 	
 	def __init__(self, inputTable):
 		
-		'''
+		"""
 		Input:
-
+		----------
 			. inputTable = data file name. 	
 				Rows: 1 = column infomation, 2 to last = individuals, 
 				Cols: 1 = population name, 2 = individual number, 3 = sex (1 = M, 2 = F), 4 = population number, 5 to last=markers 
 
 		Return:
-
+		----------
 			A set of atributes.
 
 			. nameColumn: column names. Type = numpy.array (strings) with shape = (4 + number of markers)  
@@ -35,7 +57,9 @@ class Data():
 			. n_markers: number of markers. Type = int
 			. markers: name of markers. Type = numpy.array (strings) with shape = (number of markers)
 		
-		__init__ use Pandas for reading only one sheet of the Excel file. '''
+		__init__ use Pandas for reading only one sheet of the Excel file. 
+
+		"""
 		
 		self.file = inputTable
 
@@ -65,7 +89,7 @@ class Data():
 
 	def Parameters(self):
 			
-		'''
+		"""
 		Hardcoded parameters for testing table generic_table.xlsx
 
 		info == [boolean] print some info of the input file
@@ -84,7 +108,8 @@ class Data():
 		STRMen == [float] Structure men param for filling
 		outputNameStr == [str] prefix output name
 		
-		'''
+		"""
+
 		self.info = True
 
 		self.IsMan = 1
@@ -109,10 +134,12 @@ class Data():
 
 	def sortData(self):
 
-		'''
-		return: columnName, columnValues
+		"""
+		return: 
+		----------
+		columnName, columnValues
+		"""
 
-		'''
 		columnName=[]
 		for each in self.sheetData.columns:
 			columnName.append(each)
@@ -124,17 +151,20 @@ class Data():
 
 	
 	def Women(self):
-		'''
+
+		"""
 		ColSexType  == column with the 1 or 2 (man or woman)
 
-		return: number of women, men and total individuals in the file
+		return: 
+		----------
+		number of women, men and total individuals in the file
+		
+		"""
 
-		'''
 		countWomen = 0
 		countMen = 0
 
 		for each in self.fileValues.T[self.ColSexType]:
-			#print each
 			if each == 2:
 				countWomen += 1
 			elif each == 1:
@@ -143,12 +173,15 @@ class Data():
 		return countWomen/2, countMen, countWomen/2 + countMen 
 
 	def Populations(self):
-		'''
+
+		"""
 		ColSexType  == column with the 1 or 2 (man or woman)
 		ColPopNum == column with number of population
-		return: total number of populations in the spreadsheet
+		return: 
+		-----------
+		total number of populations in the spreadsheet
 
-		'''
+		"""
 		countWomen = []
 		countMen = []
 		
@@ -200,10 +233,14 @@ class Data():
 		return countMen, countWomen, total_subpop, number_subpop, popul
 
 	def Markers(self):
-		'''
+
+		"""
 		ColMarkBegin == column where begins the markers
 
-		return: number of markers
+		return: 
+		---------
+		number of markers
 
-		'''
+		"""
+
 		return len(self.fileValues.T[self.ColMarkBegin:]), self.nameColumn.T[self.ColMarkBegin:]
