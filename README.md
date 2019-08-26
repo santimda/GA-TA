@@ -12,6 +12,18 @@ To execute the program from the command line, run:
 
    >$ python main.py [OPTIONS] <spreadsheet_name>  
 
+## Installation with conda environment for Python 3.X:
+.. Install miniconda
+.. Create myenv
+$  conda create -n myenv python=3.X
+.. Activate environment
+$  conda activate mynev
+.. Install the following packages using 'conda install pack':
+. pandas
+. xlrd
+. unidecode
+. openpyxl
+
 [OPTIONS]: The user can specify one, two or three letters (in any order) to obtain the desired output tables. These are: "r" for R, "a" for Arlequin, and "s" for Structure. 
 
 The spradsheet must be either in Excel extention '.xlsx' or in open office '.ods'
