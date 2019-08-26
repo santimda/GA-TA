@@ -83,7 +83,7 @@ class Data():
 		self.sheetData = allFile.parse(sheet0)
 		# create column name and column values 
 		self.nameColumn, self.fileValues = self.sortData()
-		self.n_women, self.n_men, self.total_MenWomen = self.Women() 	
+		self.n_women, self.n_men, self.total_MenWomen = self.WoMen() 	
 		self.men4subpop, self.women4subpop, self.n_each_population, self.totalPopulations,self.populations = self.Populations()
 		self.n_markers, self.markers = self.Markers()
 
@@ -150,7 +150,7 @@ class Data():
 		return np.array(columnName), np.array(columnValues)
 
 	
-	def Women(self):
+	def WoMen(self):
 
 		"""
 		ColSexType  == column with the 1 or 2 (man or woman)
@@ -216,15 +216,15 @@ class Data():
 			# partial saving of women and men populations: if i<len() continue, else save the last population
 			if i < len(pop_index)-1 and pop_index[i+1] == index + 1:
 				index += 1    
-				countWomen.append(countWomen_i/2)
-				countMen.append(countMen_i)
+				countWomen.append(int(countWomen_i/2))
+				countMen.append(int(countMen_i))
 				countWomen_i=0
 				countMen_i = 0
 				popul.append(aux)
 				aux = []
 			elif i == len(pop_index)-1:
-				countWomen.append(countWomen_i/2)
-				countMen.append(countMen_i)
+				countWomen.append(int(countWomen_i/2))
+				countMen.append(int(countMen_i))
 				popul.append(aux)
 
 		total_subpop = np.array(countWomen)+np.array(countMen)
