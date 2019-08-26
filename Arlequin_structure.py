@@ -164,7 +164,7 @@ class Arlequin():
 		
 		for i in range(0,len(population_m),2):
 			count += 1
-			markersMen_forArlq[i,0] = PopName+str(count).zfill(Fill)
+			markersMen_forArlq[i,0] = PopName+str(int(count)).zfill(Fill)
 			markersMen_forArlq[i,1] = int(Data.ARLQINDEX)
 
 			markersMen_forArlq[i+1,0] = ' '
