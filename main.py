@@ -32,16 +32,14 @@ else:
 	data = Data(sys.argv[1]) 
 
 if data.info:
-	print '{0} file contains {1} individuals: {2} women and {3} men.'.format(
-	sys.argv[2], data.total_MenWomen, data.n_women, data.n_men)
-	print 'The sheet has {0} subpopulations, each one with {1} individuals'.format(data.totalPopulations, data.n_each_population)
-	print 'Number of markers: {0}. Marker names: {1}'.format(data.n_markers, data.markers)
+	print('{0} file contains {1} individuals: {2} women and {3} men.'.format(
+	argum, data.total_MenWomen, data.n_women, data.n_men))
+	print('The sheet has {0} subpopulations, each one with {1} individuals'.format(data.totalPopulations, data.n_each_population))
+	print('Number of markers: {0}. Marker names: {1}'.format(data.n_markers, data.markers))
 	#print np.shape(data.markers)
-	print 'Women per subpopulation', data.women4subpop
-
-	print 'Men per subpopulation', data.men4subpop
-
-	print 'Filevalues dimensions', np.shape(data.fileValues)
+	print('Women per subpopulation', data.women4subpop)
+	print('Men per subpopulation', data.men4subpop)
+	print('Filevalues dimensions', np.shape(data.fileValues))
 
 if 'r' in argum:
 	R(data)
