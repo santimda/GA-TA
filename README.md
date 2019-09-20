@@ -17,7 +17,7 @@ To execute the program from the command line, run:
 .. Create myenv
 $  conda create -n myenv python=3.X
 .. Activate environment
-$  conda activate mynev
+$  conda activate myenv
 .. Install the following packages using 'conda install pack':
 . pandas
 . xlrd
@@ -40,4 +40,4 @@ will return output files for Structure.
 
 ## Considerations 
 
-All columns with information must have a name (e.g., there cannot be a blank cell in the first row for any column with information). An example sheet along with a more detailed manual can be downloaded from the [GA-TA website](http://gata.fcaglp.unlp.edu.ar/).
+All columns with information must have a name (e.g., there cannot be a blank cell in the first row for any column with information). An example sheet along with a more detailed manual can be downloaded from the [GA-TA website](http://gata.fcaglp.unlp.edu.ar/), and they are also available in the folder 'Documentation'.
