@@ -40,7 +40,11 @@ def SingleMenTable(popname):
 	ndim = len(namecol)
 	
 	# Number of digits
-	digits = int(np.log10(ndim))+1
+	if ndim == 0:
+		digits = 1
+	else:
+		digits = int(np.log10(ndim))+1
+
 	count = 1
 
 	for i in np.arange(0,len(namecol)):
