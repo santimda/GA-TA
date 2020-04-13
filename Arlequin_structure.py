@@ -127,10 +127,7 @@ class Arlequin():
 		"""
 
 		# Compute number of digits of number of men
-		if m4subpop == 0:
-			Fill = 1
-		else:
-			Fill = int(np.log10(m4subpop))+1
+		Fill = len(str(m4subpop))
 
 		population = pop
 		PopName = population[0][Data.ColPopName]
