@@ -21,6 +21,7 @@ Latest upload: July 2019
 """
 import numpy as np
 import pandas as pd
+from gata.readtable import Data as Drt
 
 class Structure():
 
@@ -29,6 +30,10 @@ class Structure():
 	"""
 
 	def __init__(self, Data):
+
+		if not isinstance(Data,Drt):
+			raise ValueError("The file has not {} format. Call gata.readtable.Data('{}') \
+				".format(Drt.__module__, Data))
 
 		if not Data:
 			raise ValueError('Data must be specified')
