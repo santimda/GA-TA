@@ -7,7 +7,7 @@ Contact: unlpbiotec@gmail.com
 
 Thanks to Federico Lopez Armengol for helping us with the meta structure and Github usage
 
-Latest upload: March 2019
+Latest upload: May 2020
 
 """
 
@@ -15,10 +15,10 @@ import sys
 import os
 import numpy as np
 import pandas as pd
-from readtable import Data
-from R_structure import R
-from Arlequin_structure import Arlequin
-from Structure_structure import Structure
+from gata.readtable import Data
+from gata.R_structure import R
+from gata.Arlequin_structure import Arlequin
+from gata.Structure_structure import Structure
 
 '''Call the class to read the input table and store information'''
 #read the table and return a data with many atributes
