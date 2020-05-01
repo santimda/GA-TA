@@ -8,8 +8,13 @@
 
 ## Running on terminal
 
-To execute the program from the command line, run:
+**GA-TA** is a Python module. You can install in your local environment doing:
+   
+   >$ python setup.py install
 
+and you can enjoy GA-TA as Python3 module. You have a pipeline called main.py as an example of how to wrok with it.
+
+To execute the example from the command line, run:
    >$ python main.py [OPTIONS] <spreadsheet_name>  
 
 ## Installation with conda environment for Python 3.X:
