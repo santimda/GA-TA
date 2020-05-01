@@ -23,12 +23,16 @@ Latest upload: July 2019
 import numpy as np
 import pandas as pd
 import os
+from gata.readtable import Data as Drt
 
-class R():
+class R(object):
 
 	""" R structure. It returns men and women format for R."""
 
 	def __init__(self, Data):
+
+		if not isinstance(Data,Drt):
+			raise ValueError("The file has not {} format. Call gata.readtable.Data('{}')".format(Drt.__module__, Data))
 
 		if not Data:
 			raise ValueError('Data must be specified')
@@ -93,20 +97,6 @@ class R():
 		# Remove the temporary .txt file
 		os.remove(Data.outputNameR+'Women.txt')
 
-		#OutputRDF = pd.DataFrame(self.data)
-		#Writer = pd.ExcelWriter(Data.outputNameR + Data.outputExtensionFile)
-		#OutputRDF.to_excel(Writer, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
-		#Writer.save()
-	
-		#OutputRDFMen = pd.DataFrame(self.men)
-		#WriterMen = pd.ExcelWriter(Data.outputNameR + 'Men' + Data.outputExtensionFile)
-		#OutputRDFMen.to_excel(WriterMen, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
-		#WriterMen.save()
-	
-		#OutputRDFWomen = pd.DataFrame(self.women)
-		#WriterWomen = pd.ExcelWriter(Data.outputNameR + 'Women' + Data.outputExtensionFile)
-		#OutputRDFWomen.to_excel(WriterWomen, sheet_name = 'Sheet1', na_rep = ' ', index = False, header = False)
-		#WriterWomen.save()
 
 	def RType(self, Data, pop):
 		
@@ -172,9 +162,5 @@ class R():
 				markersMen_forR[i//2,j+2] = int(population_m[i+1][Data.ColMarkBegin+j//2])
 		
 		return markersWom_forR, markersMen_forR
-
-
-
-
 
 
